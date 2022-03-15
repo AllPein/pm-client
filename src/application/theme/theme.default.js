@@ -28,8 +28,6 @@ export const theme = {
     grayscale8: '#F5F5F5',
     shadow1: 'rgba(220, 225, 231, 0.6)',
     borderIcon: '#64A3F5',
-
-    // TODO: #567
     primary3Light: '#ffffffE6',
     grayScale8: '#87898B',
     grayscale15: '#DCE1E7',

@@ -1,5 +1,4 @@
-import AntdSpin from 'antd/es/spin'
-import 'antd/lib/spin/style/index.less'
+import { Spin as AntdSpin} from 'antd'
 import PropTypes from 'prop-types'
 import { childrenShape } from '@/utils/propTypes'
 
