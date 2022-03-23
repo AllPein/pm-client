@@ -1,6 +1,4 @@
-
-
-import Warning from '@/assets/icons/ic-16-warning.svg'
+import { ReactComponent as Warning } from '@/assets/icons/ic-16-warning.svg'
 import { Icon } from './Icons.styles'
 
 const WarningIcon = () => (

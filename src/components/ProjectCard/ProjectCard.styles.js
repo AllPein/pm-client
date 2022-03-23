@@ -4,7 +4,6 @@ const Wrapper = styled.div`
   padding: 2rem;
   margin: 3rem 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-direction: row;
   border-radius: 1rem;
@@ -32,7 +31,7 @@ const Description = styled.p`
 const Name = styled.h2`
   margin: 1.2rem 0;
   font-size: 2rem;
-  color: ${(props) => props.theme.color.primary2Darker};
+  color: ${(props) => props.theme.color.primary2Light};
 `
 
 const Footer = styled.div`

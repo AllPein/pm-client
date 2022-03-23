@@ -6,6 +6,8 @@ import { lazy } from '@/utils/lazy'
 import { ApplicationLayout } from '@/application/ApplicationLayout'
 
 const ProjectListPage = lazy(() => import('@/pages/ProjectListPage'), 'ProjectListPage')
+const ProjectInfoPage = lazy(() => import('@/pages/ProjectInfoPage'), 'ProjectInfoPage')
+const SettingsPage = lazy(() => import('@/pages/SettingsPage'), 'SettingsPage')
 
 const Root = () => {
   const renderRoot = () => (
@@ -21,6 +23,18 @@ const Root = () => {
           path='/projects'
         >
           <ProjectListPage />
+        </ErrorBoundRoute>
+        <ErrorBoundRoute
+          exact
+          path='/projects/:projectCode'
+        >
+          <ProjectInfoPage />
+        </ErrorBoundRoute>
+        <ErrorBoundRoute
+          exact
+          path='/user/settings'
+        >
+          <SettingsPage />
         </ErrorBoundRoute>
       </Switch>
     </ApplicationLayout>

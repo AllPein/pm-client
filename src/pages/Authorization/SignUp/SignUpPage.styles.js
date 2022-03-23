@@ -10,7 +10,7 @@ export const FormLogin = styled.div`
 `
 
 export const ButtonWrapper = styled.div`
-  margin-top: 3rem;
+  margin-top: 1.3rem;
 `
 
 export const Wrapper = styled.div`
@@ -23,5 +23,18 @@ export const Wrapper = styled.div`
 export const Name = styled.h2`
   margin: 1.2rem 0;
   font-size: 2rem;
-  color: ${(props) => props.theme.color.primary1Dark}
+  color: ${(props) => props.theme.color.primary1Dark};
+`
+
+export const LinkText = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+`
+
+export const Link = styled.p`
+  margin-left: 0.7rem;
+  color: ${(props) => props.theme.color.primary2};
+  cursor: pointer;
 `

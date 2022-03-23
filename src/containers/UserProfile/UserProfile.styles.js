@@ -20,6 +20,7 @@ const StyledAvatar = styled(Avatar)`
   font-weight: normal;
   font-size: 1.2rem;
   line-height: 3rem;
+  background-color: ${(props) => props.color};
   border: 1px solid ${(props) => props.theme.color.grayscale1};
 `
 

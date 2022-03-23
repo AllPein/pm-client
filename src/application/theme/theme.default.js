@@ -7,7 +7,7 @@ export const theme = {
     primary3: '#ffffff',
     primary4: '#303030',
     primary5: '#F2F6FB',
-    primary2Light: 'rgba(57, 128, 232, 0.25)',
+    primary2Light: '#1890FF',
     primary2Lighter: 'rgba(57, 128, 232, 0.65)',
     primary2Darker: '#1962CD',
     error: '#FF5645',

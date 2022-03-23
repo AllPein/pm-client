@@ -1,29 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { MenuTrigger } from '@/components/Menu'
 import * as UI from './UserProfile.styles'
+import { getAvatarCharacters, getUserCaption } from '@/utils/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserData } from '@/actions/user'
+import { authProvider } from '@/application/Auth/authProvider'
+import { userInfoSelector } from '@/selectors/user'
+import { goTo } from '@/utils/routerActions'
 
 const MenuOptions = [
   {
     content: 'Посмотреть профиль',
-    visible: true
+    visible: true,
+    onClick: () => {
+      goTo('/user/settings')
+    }
   },
   {
     content: 'Выйти',
-    visible: true
+    visible: true,
+    onClick: () => authProvider.signOut()
   }
 ]
 
 const UserProfile = () => {
-  const [userInfo, setUserInfo] = useState({})
+  const dispatch = useDispatch()
+  const userInfo = useSelector(userInfoSelector)
 
   useEffect(() => {
-    const user = {
-      firstName: 'Александр',
-      lastName: 'Панин',
-      group: 'ПИ-19-1'
+    if (authProvider.isAuthenticated() && Object.keys(userInfo).length === 0) {
+      dispatch(fetchUserData())
     }
-    setUserInfo(user)
-  }, [])
+  }, [dispatch, userInfo])
     
 
   const getMenuItems = () => MenuOptions
@@ -40,17 +48,6 @@ const UserProfile = () => {
     }
     ))
 
-  const getFirstChar = (name) => name ? name.charAt(0) : ''
-
-  const getAvatarCharacters = () => {
-    const { firstName, lastName } = userInfo
-    const firstNameChar = getFirstChar(firstName)
-    const lastNameChar = getFirstChar(lastName)
-    return `${firstNameChar}${lastNameChar}`
-  }
-
-  const getUserCaption = () => `${userInfo.firstName} ${userInfo.lastName}`
-
   return (
     <UI.StyledMenu
       arrow
@@ -58,15 +55,15 @@ const UserProfile = () => {
       trigger={MenuTrigger.HOVER}
     >
       <UI.StyledButton>
-        <UI.StyledAvatar>
-          {getAvatarCharacters()}
+        <UI.StyledAvatar color={userInfo?.avatarColor}>
+          {getAvatarCharacters(userInfo)}
         </UI.StyledAvatar>
         <UI.UserHeadline>
           <UI.FullNameBlock>
-            {getUserCaption()}
+            {getUserCaption(userInfo)}
           </UI.FullNameBlock>
           <UI.Group>
-            {userInfo.group}
+            {userInfo?.group}
           </UI.Group>
         </UI.UserHeadline>
         <UI.DownIcon />

@@ -1,14 +1,23 @@
-import React from 'react'
-import { Project } from '@/components/Project'
+import React, { useCallback } from 'react'
+import { ProjectCard } from '@/components/ProjectCard'
 import * as UI from './ProjectList.styles'
+import { goTo } from '@/utils/routerActions'
 
-const ProjectList = () => {
+const ProjectList = ({
+  projects
+}) => {
+  const openProject = useCallback((project) => {
+    goTo(`/projects/${project.code}`)
+  }, [])
+
+
   return (
     <UI.Wrapper>
-      {['Создание ИС для завода', 'Создание ИС для фабрики', 'Создание ИС для твари'].map((p) => (
-        <Project 
-          key={p}
-          name={p}
+      {projects.map((p) => (
+        <ProjectCard 
+          key={p.code}
+          project={p}
+          openProject={() => openProject(p)}
         />
       ))}
     </UI.Wrapper>

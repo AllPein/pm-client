@@ -1,34 +1,51 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Button, Input } from 'antd'
 import * as UI from './SignUpPage.styles'
+import { useDispatch } from 'react-redux'
+import { signUp } from '@/actions/auth'
+import { UserRoles } from '@/enums/Role'
+import { goTo } from '@/utils/routerActions'
 
 const SignUpPage = () => {
-  // const dispatch = useDispatch()
-  // const loading = useSelector(loadingSelector)
-  // const userLoading = useSelector(userLoadingSelector)
-  // const error = useSelector(errorSelector)
+  const dispatch = useDispatch()
 
-
-  // useEffect(() => {
-  //   if (!!error) {
-  //     openNotification('Ошибка авторизации', 'Неверно введет логин или пароль')
-  //   }
-  // }, [error])
-
-  const [loginValue, setLoginValue] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [group, setGroup] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
 
-  const handleLoginChange = (event) => {
-    setLoginValue(event.target.value)
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value)
+  }
+
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value)
+  }
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value)
+  }
+
+  const handleGroupChange = (event) => {
+    setGroup(event.target.value)
   }
 
   const handlePasswordChange = (event) => {
     setPasswordValue(event.target.value)
   }
 
-  // const handleLogin = useCallback(async () => {
-  //   await dispatch(login(loginValue, passwordValue))
-  // }, [dispatch, loginValue, passwordValue])
+  const register = useCallback(async () => {
+    await dispatch(signUp({
+      firstName,
+      lastName,
+      email,
+      password: passwordValue,
+      group,
+      role: UserRoles.STUDENT
+    }))
+    goTo('/')
+  }, [dispatch, email, firstName, group, lastName, passwordValue])
 
 
   return (
@@ -37,15 +54,29 @@ const SignUpPage = () => {
         <UI.Name>E-mail</UI.Name>
         <Input
           placeholder='Заполните поле'
-          value={loginValue}
-          onChange={handleLoginChange}
+          value={email}
+          onChange={handleEmailChange}
           disabled={false}
         />
         <UI.Name>Имя</UI.Name>
         <Input
           placeholder='Заполните поле'
-          value={loginValue}
-          onChange={handleLoginChange}
+          value={firstName}
+          onChange={handleFirstNameChange}
+          disabled={false}
+        />
+        <UI.Name>Фамилия</UI.Name>
+        <Input
+          placeholder='Заполните поле'
+          value={lastName}
+          onChange={handleLastNameChange}
+          disabled={false}
+        />
+        <UI.Name>Группа</UI.Name>
+        <Input
+          placeholder='Заполните поле'
+          value={group}
+          onChange={handleGroupChange}
           disabled={false}
         />
         <UI.Name>Пароль</UI.Name>
@@ -56,14 +87,20 @@ const SignUpPage = () => {
           type='password'
           disabled={false}
         />
+        <UI.LinkText>
+          Уже есть аккаунт?
+          <UI.Link onClick={() => goTo('/signin')}>
+            Войти
+          </UI.Link>
+        </UI.LinkText>
         <UI.ButtonWrapper>
           <Button
             block
             type='primary'
             disabled={false}
-            onClick={() => {}}
+            onClick={register}
           >
-            Войти
+            Зарегистрироваться
           </Button>
         </UI.ButtonWrapper>
       </UI.FormLogin>

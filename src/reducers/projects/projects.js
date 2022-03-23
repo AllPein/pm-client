@@ -1,17 +1,22 @@
 import { handleActions } from 'redux-actions'
+import { setProjects } from '@/actions/projects'
 
-const initialState = []
+const initialState = {
+  data: []
+}
+
+const setProjectsHandler = (state, action) => {
+  return {
+    ...state,
+    data: action.payload
+  }
+}
 
 const projectsReducer = handleActions(
   new Map([
     [
-      () => {},
-      (state, action) => (
-        {
-          ...state,
-          table: action.payload
-        }
-      )
+      setProjects,
+      setProjectsHandler
     ]
   ]),
   initialState

@@ -4,13 +4,14 @@ import { Root } from '@/application/Root'
 import { ErrorBoundRoute } from '@/components/ErrorBoundRoute'
 import { Spin } from '@/components/Spin'
 import { lazy } from '@/utils/lazy'
+import { authProvider } from './authProvider'
 
 const SignUpPage = lazy(() => import('@/pages/Authorization/SignUp'), 'SignUpPage')
 const SignInPage = lazy(() => import('@/pages/Authorization/SignIn'), 'SignInPage')
 
 const Auth = () => {
   const renderRoot = useCallback(() => {
-    if (false) {
+    if (!authProvider.isAuthenticated()) {
       return (
         <Redirect to={
           {
@@ -24,7 +25,7 @@ const Auth = () => {
     return (
       <Root />
     )
-  }, [])
+  }, [authProvider.isAuthenticated])
 
   return (
     <Suspense fallback={<Spin.Centered spinning />}>

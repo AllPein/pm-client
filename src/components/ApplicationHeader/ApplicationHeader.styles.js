@@ -25,6 +25,10 @@ const StyledLogoSearch = styled.div`
   display: flex;
   align-items: left;
   width: 60%;
+
+  &:hover{
+    cursor: pointer;
+  }
 `
 
 const StyledProfileUpload = styled.div`
