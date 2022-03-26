@@ -5,12 +5,14 @@ import { navigationReducer } from '@/reducers/navigation'
 import { projectViewReducer } from '@/reducers/projectView'
 import { userReducer } from '@/reducers/user'
 import { requestsReducer } from '@/reducers/requests'
+import { usersReducer } from '@/reducers/users'
 
 const createReducers = (history) => combineReducers({
   projects: projectsReducer,
   navigation: navigationReducer,
   projectView: projectViewReducer,
   user: userReducer,
+  users: usersReducer,
   requests: requestsReducer,
   router: connectRouter(history),
 })

@@ -1,15 +1,20 @@
-import { Divider } from 'antd'
+import { Button, Divider } from 'antd'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding: 2rem 0rem;
+  max-height: 40rem;
 `
 
 const StyledDivider = styled(Divider)`
-  margin: 1rem 7rem;
+  margin: 1rem 6rem;
+`
+
+const StyledButton = styled(Button)`
+  margin-top: 1.4rem;
 `
 
 export {
   Wrapper,
-  StyledDivider
+  StyledDivider,
+  StyledButton
 }

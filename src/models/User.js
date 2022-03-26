@@ -21,13 +21,13 @@ class User {
 }
 
 const userShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  avatarColor: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  avatarColor: PropTypes.string,
   group: PropTypes.string,
   email: PropTypes.string,
-  role: PropTypes.string.isRequired
+  role: PropTypes.string
 })
 
 

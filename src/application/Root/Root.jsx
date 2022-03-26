@@ -8,6 +8,7 @@ import { ApplicationLayout } from '@/application/ApplicationLayout'
 const ProjectListPage = lazy(() => import('@/pages/ProjectListPage'), 'ProjectListPage')
 const ProjectInfoPage = lazy(() => import('@/pages/ProjectInfoPage'), 'ProjectInfoPage')
 const SettingsPage = lazy(() => import('@/pages/SettingsPage'), 'SettingsPage')
+const RolesAssignmentPage = lazy(() => import('@/pages/RolesAssignmentPage'), 'RolesAssignmentPage')
 
 const Root = () => {
   const renderRoot = () => (
@@ -35,6 +36,12 @@ const Root = () => {
           path='/user/settings'
         >
           <SettingsPage />
+        </ErrorBoundRoute>
+        <ErrorBoundRoute
+          exact
+          path='/admin/roles'
+        >
+          <RolesAssignmentPage />
         </ErrorBoundRoute>
       </Switch>
     </ApplicationLayout>

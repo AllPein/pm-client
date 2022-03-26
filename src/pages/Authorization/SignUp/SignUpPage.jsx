@@ -13,6 +13,7 @@ const SignUpPage = () => {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [group, setGroup] = useState('')
+  const [ghUsername, setGhUsername] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
 
   const handleFirstNameChange = (event) => {
@@ -21,6 +22,10 @@ const SignUpPage = () => {
 
   const handleLastNameChange = (event) => {
     setLastName(event.target.value)
+  }
+
+  const handleGhUsernameChange = (event) => {
+    setGhUsername(event.target.value)
   }
 
   const handleEmailChange = (event) => {
@@ -40,12 +45,13 @@ const SignUpPage = () => {
       firstName,
       lastName,
       email,
+      ghUsername,
       password: passwordValue,
       group,
       role: UserRoles.STUDENT
     }))
     goTo('/')
-  }, [dispatch, email, firstName, group, lastName, passwordValue])
+  }, [dispatch, email, firstName, ghUsername, group, lastName, passwordValue])
 
 
   return (
@@ -77,6 +83,13 @@ const SignUpPage = () => {
           placeholder='Заполните поле'
           value={group}
           onChange={handleGroupChange}
+          disabled={false}
+        />
+        <UI.Name>Имя пользователя на GitHub</UI.Name>
+        <Input
+          placeholder='Заполните поле'
+          value={ghUsername}
+          onChange={handleGhUsernameChange}
           disabled={false}
         />
         <UI.Name>Пароль</UI.Name>

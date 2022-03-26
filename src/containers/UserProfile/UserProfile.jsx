@@ -7,13 +7,21 @@ import { fetchUserData } from '@/actions/user'
 import { authProvider } from '@/application/Auth/authProvider'
 import { userInfoSelector } from '@/selectors/user'
 import { goTo } from '@/utils/routerActions'
+import { UserRoles, UserRolesName } from '@/enums/Role'
 
-const MenuOptions = [
+const MenuOptions = (user) => [
   {
     content: 'Посмотреть профиль',
     visible: true,
     onClick: () => {
       goTo('/user/settings')
+    }
+  },
+  {
+    content: 'Назначить роли',
+    visible: user.role === UserRoles.ADMIN,
+    onClick: () => {
+      goTo('/admin/roles')
     }
   },
   {
@@ -34,7 +42,7 @@ const UserProfile = () => {
   }, [dispatch, userInfo])
     
 
-  const getMenuItems = () => MenuOptions
+  const getMenuItems = () => MenuOptions(userInfo)
     .filter((option) => option.visible ?? true)
     .map((option, index) => ({
       content: () => (
@@ -63,7 +71,7 @@ const UserProfile = () => {
             {getUserCaption(userInfo)}
           </UI.FullNameBlock>
           <UI.Group>
-            {userInfo?.group}
+            {userInfo?.group ?? UserRolesName[userInfo?.role]}
           </UI.Group>
         </UI.UserHeadline>
         <UI.DownIcon />

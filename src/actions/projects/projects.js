@@ -16,3 +16,11 @@ export const fetchProjects = createRequestAction(
     return projects
   }
 )
+
+export const createProject = createRequestAction(
+  'createProject',
+  (data) => async (dispatch) => {
+    const project = await projectsApi.createProject(data)
+    return project
+  }
+)

@@ -13,7 +13,13 @@ const activeTabSelector = createSelector(
   (projectView) => get(projectView, 'activeTab')
 )
 
+const projectTimeSelector = createSelector(
+  [projectViewRootSelector],
+  (projectView) => get(projectView, 'projectTime')
+)
+
 export {
   projectSelector,
+  projectTimeSelector,
   activeTabSelector
 }

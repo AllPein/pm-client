@@ -22,6 +22,14 @@ export const fetchUserData =  createRequestAction(
   }
 )
 
+export const updateUser = createRequestAction(
+  'updateUser',
+  (newData) => async () => {
+    const user = await userApi.updateUser(newData)
+    return user
+  }
+)
+
 export const fetchProjectUserData = (projectid, userId) => (dispatch) => {
   const projectInfo = {
     user: {},

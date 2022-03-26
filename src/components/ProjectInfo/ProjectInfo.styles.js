@@ -8,6 +8,12 @@ const Wrapper = styled.div``
 const Controls = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`
+
+const NameControl = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const StyledAvatar = styled.div``
@@ -50,16 +56,23 @@ const StyledInput = styled(Group)`
 
 const RepoHandler = styled.div`
   display: flex;
+  width: 50rem;
+`
+
+const RightControls = styled.div`
+  margin-right: 5rem;
   max-width: 50rem;
 `
 
 
 export {
+  RightControls,
   Controls,
   Wrapper,
   RepoHandler,
   StyledInput,
   Name,
+  NameControl,
   InfoControls,
   RepoName,
   Description,

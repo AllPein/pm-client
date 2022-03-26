@@ -13,16 +13,26 @@ import locale from 'antd/es/date-picker/locale/ru_RU'
 import 'moment/locale/ru'
 import { UploadOutlined } from '@ant-design/icons'
 import { fetchProjects } from '@/actions/projects'
+import { userInfoSelector } from '@/selectors/user'
+import { UserRoles } from '@/enums/Role'
+import { fileApi } from '@/api/fileApi'
+import { ENV } from '@/utils/env'
+import { createProject } from '@/actions/projects/projects'
 
 const ProjectListPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [files, setFiles] = useState([])
+  const [fileUrl, setFileUrl] = useState('')
+  const [projectName, setProjectName] = useState('')
+  const [projectDescription, setProjectDescription] = useState('')
+  const [projectDate, setProjectDate] = useState(new Date())
 
   const dispatch = useDispatch()
 
   const projects = useSelector(projectsSelector)
   const searchValue = useSelector(searchSelector)
   const currentPage = useSelector(pageSelector)
+  const user = useSelector(userInfoSelector)
 
   useEffect(() => {
     dispatch(fetchProjects())
@@ -40,6 +50,11 @@ const ProjectListPage = () => {
       })
     )
   }, [dispatch])
+
+  const toggleModal = useCallback((state) => {
+    setIsModalVisible(state)
+  }, [setIsModalVisible])
+
 
   const paginationConfig = useMemo(() => {
     const total = projects.length
@@ -103,60 +118,105 @@ const ProjectListPage = () => {
     setFiles(files)
   }, [])
 
+  const addProject = useCallback(async () => {
+    await dispatch(createProject({
+      name: projectName,
+      description: projectDescription,
+      dueDate: projectDate,
+      avatar: fileUrl
+    }))
+    await dispatch(fetchProjects())
+    toggleModal(false)
+  }, [dispatch, projectName, projectDescription, projectDate, fileUrl, toggleModal])
+
+  const uploadImage = async (options) => {
+    const { onError, file, onSuccess } = options
+    const data = new FormData()
+    data.append('file', file)
+    data.append('upload_preset', ENV.UPLOAD_PRESET)
+    try {
+      const response = await fileApi.uploadFile(data, 'image')
+      setFileUrl(response.data.url)
+      onSuccess('OK')
+    } catch (err) {
+      onError({ err })
+    }
+  }
+
+  const onChangeName = (e) => {
+    setProjectName(e.target.value)
+  }
+  
+  const onChangeDescription = (e) => {
+    setProjectDescription(e.target.value)
+  }
+
+  const onChangeDate = (date, dateString) => {
+    setProjectDate(new Date(dateString).toISOString())
+  }
+
   const renderModalContent = useMemo(() => (
     <>
       <UI.FieldName>
         Название
       </UI.FieldName>
       <Input
+        value={projectName}
+        onChange={onChangeName}
+        placeholder='Заполните поле'
       />
       <UI.FieldName>
         Описание
       </UI.FieldName>
       <Input.TextArea
+        value={projectDescription}
+        onChange={onChangeDescription}
+        placeholder='Заполните поле'
       />
       <UI.FieldName>
         Дата сдачи
       </UI.FieldName>
       <DatePicker
+        onChange={onChangeDate}
         locale={locale}
       />
       <UI.FieldName>
         Аватар
       </UI.FieldName>
       <Upload
-        action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+        customRequest={uploadImage}
         onChange={onFileChange}
         fileList={files}
-        multiple
       >
         <Button icon={<UploadOutlined />}>Загрузить фото</Button>
       </Upload>
     </>
-  ), [files, onFileChange])
+  ), [files, onFileChange, projectDescription, projectName])
 
-  const toggleModal = useCallback((state) => {
-    setIsModalVisible(state)
-  }, [setIsModalVisible])
 
   return (
     <>
       <UI.Wrapper>
         <UI.Controls>
           <Search />
-          <Button
-            type='primary'
-            onClick={() => toggleModal(true)}
-          >
-            Создать проект
-          </Button>
+          {
+            user.role === UserRoles.PROJECT_MANAGER && 
+            (
+              <Button
+                type='primary'
+                onClick={() => toggleModal(true)}
+              >
+                Создать проект
+              </Button>
+            )
+          }
         </UI.Controls>
         {renderProjects}
       </UI.Wrapper>
       <Modal
         visible={isModalVisible}
         title='Создание проекта'
-        onOk={() => toggleModal(false)}
+        onOk={addProject}
         onCancel={() => toggleModal(false)}
       >
         {renderModalContent}

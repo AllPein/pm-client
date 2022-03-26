@@ -1,8 +1,9 @@
 import { handleActions } from 'redux-actions'
-import { setProject, setActiveTab } from '@/actions/projectView'
+import { setProject, setProjectTime, setActiveTab } from '@/actions/projectView'
 
 const initialState = {
   project: null,
+  projectTime: null,
   activeTab: 'participants'
 }
 
@@ -10,6 +11,13 @@ const setProjectHandler = (state, action) => {
   return {
     ...state,
     project: action.payload
+  }
+}
+
+const setProjectTimeHandler = (state, action) => {
+  return {
+    ...state,
+    projectTime: action.payload
   }
 }
 
@@ -25,6 +33,10 @@ const projectViewReducer = handleActions(
     [
       setProject,
       setProjectHandler
+    ],
+    [
+      setProjectTime,
+      setProjectTimeHandler
     ],
     [
       setActiveTab,

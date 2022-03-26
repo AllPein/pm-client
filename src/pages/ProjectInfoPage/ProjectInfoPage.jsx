@@ -6,9 +6,9 @@ import { useEffect } from 'react'
 import { fetchProject } from '@/actions/projectView'
 import { ProjectView } from '@/containers/ProjectView'
 import { BackLink } from '@/components/BackLink'
-import { fetchProjectUserData } from '@/actions/user'
 import { userInfoSelector } from '@/selectors/user'
 import { projectSelector } from '@/selectors/projectView'
+import { useMemo } from 'react'
 
 
 const ProjectInfoPage = () => {
@@ -21,17 +21,32 @@ const ProjectInfoPage = () => {
   useEffect(() => {
     if (projectCode) {
       dispatch(fetchProject(projectCode))
-      // dispatch(fetchProjectUserData(projectCode, user.id))
     }
   }, [dispatch, projectCode, user.id])
+
+  const userInfo = useMemo(() => {
+    if (!project || !user) {
+      return
+    }
+
+    return {
+      ...user,
+      projectRole: project.participants.find((p) => p.userId === user.id)?.role
+    }
+  }, [project, user])
 
   return (
     <UI.Wrapper>
       <BackLink anchor='Все проекты' />
-      <ProjectView
-        project={project}
-        userInfo={user}
-      />
+      {
+        project && user && (
+          <ProjectView
+            project={project}
+            userInfo={userInfo}
+          />
+        )
+      }
+      
     </UI.Wrapper>
   )
 }

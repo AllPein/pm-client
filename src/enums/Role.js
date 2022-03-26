@@ -10,7 +10,21 @@ const ProjectRoles = {
   OWNER: 'OWNER'
 }
 
+const UserRolesName = {
+  ADMIN: 'Админ',
+  STUDENT: 'Студент',
+  PROJECT_MANAGER: 'Менеджер проектов'
+}
+
+const ProjectRolesName = {
+  PARTICIPANT: 'Участник проекта',
+  TEAM_LEAD: 'Тимлид',
+  OWNER: 'Создатель'
+}
+
 export {
   UserRoles,
+  UserRolesName,
+  ProjectRolesName,
   ProjectRoles
 }

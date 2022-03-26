@@ -1,5 +1,4 @@
-import notification from 'antd/es/notification'
-import 'antd/lib/notification/style/index.less'
+import { notification } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { CheckCircleIcon } from '@/components/Icons/CheckCircleIcon'
 import { CloseCircleIcon } from '@/components/Icons/CloseCircleIcon'
@@ -7,7 +6,7 @@ import { LoadingIcon } from '@/components/Icons/LoadingIcon'
 import { WarningIcon } from '@/components/Icons/WarningIcon'
 import { Placement } from '@/enums/Placement'
 
-import './notification.css'
+// import './notification.css'
 
 notification.config({
   placement: Placement.TOP_RIGHT
@@ -50,14 +49,13 @@ export const notifyRequest = (request) => async ({ fetching, success, warning },
   }
 }
 
-export const notifySuccess = (message, description = '') => notification.success({
-  message,
-  description,
-  icon: <CheckCircleIcon />
-})
+export const notifySuccess = (message, description = '') =>
+  notification.success({
+    message,
+    description
+  })
 
 export const notifyError = (message, description = '') => {
-  console.log(message)
   return notification.error({
     message,
     description,

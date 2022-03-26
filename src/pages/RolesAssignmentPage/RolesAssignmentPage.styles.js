@@ -1,5 +1,6 @@
 import { Avatar, Button } from 'antd'
 import styled from 'styled-components'
+import { SearchIcon } from '@/components/Icons/SearchIcon'
 
 const Wrapper = styled.div`
   padding: 5rem;
@@ -21,10 +22,7 @@ const StyledAvatar = styled(Avatar)`
 `
 
 const StyledButton = styled(Button)`
-`
-
-const StyledButtonBack = styled(Button)`
-  margin: 0 2rem;
+  margin-top: 3rem;
 `
 
 const FieldName = styled.h2`
@@ -33,16 +31,15 @@ const FieldName = styled.h2`
   font-weight: 400;
   color: ${(props) => props.theme.color.primary4};
 `
-const ButtonControls = styled.div`
-  margin-top: 3rem;
-  display: flex;
+
+const StyledSearchIcon = styled(SearchIcon)`
+  color: ${(props) => props.theme.color.grayscale4};
 `
 
 export {
   Wrapper,
+  StyledSearchIcon,
   FieldName,
-  ButtonControls,
-  StyledButtonBack,
   StyledButton,
   StyledAvatar
 }

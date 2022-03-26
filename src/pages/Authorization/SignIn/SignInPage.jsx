@@ -35,6 +35,7 @@ const SignInPage = () => {
       <UI.FormLogin>
         <UI.Name>E-mail</UI.Name>
         <Input
+          name='email'
           placeholder='Заполните поле'
           value={emailValue}
           onChange={handleEmailChange}

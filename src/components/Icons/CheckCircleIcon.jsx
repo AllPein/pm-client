@@ -1,6 +1,4 @@
-
-
-import CheckCircle from '@/assets/icons/ic-16-success.svg'
+import { ReactComponent as CheckCircle } from '@/assets/icons/ic-16-success.svg'
 
 const CheckCircleIcon = () => (
   <CheckCircle />
