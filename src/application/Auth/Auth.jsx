@@ -25,7 +25,7 @@ const Auth = () => {
     return (
       <Root />
     )
-  }, [authProvider.isAuthenticated])
+  }, [])
 
   return (
     <Suspense fallback={<Spin.Centered spinning />}>

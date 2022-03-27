@@ -13,6 +13,7 @@ import { updateUser } from '@/actions/user'
 import { fetchUsers } from '@/actions/users'
 import { isFetchingSelector } from '@/selectors/requests'
 import { Spin } from '@/components/Spin'
+import { notifySuccess } from '../../utils/notification/notification'
 
 const Users = ({
   users
@@ -49,7 +50,8 @@ const Users = ({
       ...currentUser,
       role: currentUserRole
     }))
-    await dispatch(fetchUsers())
+    await dispatch(fetchUsers(''))
+    notifySuccess('Успешно', 'Роль успешно назначена!')
     toggleModal(false)
   }, [currentUser, currentUserRole, dispatch, toggleModal])
 

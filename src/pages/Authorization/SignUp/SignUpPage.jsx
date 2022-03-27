@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import { Button, Input } from 'antd'
 import * as UI from './SignUpPage.styles'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from '@/actions/auth'
 import { UserRoles } from '@/enums/Role'
 import { goTo } from '@/utils/routerActions'
+import { isFetchingSelector } from '@/selectors/requests'
 
 const SignUpPage = () => {
   const dispatch = useDispatch()
+  const isFetching = useSelector(isFetchingSelector(signUp))
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -61,36 +63,40 @@ const SignUpPage = () => {
         <Input
           placeholder='Заполните поле'
           value={email}
+          name='email'
           onChange={handleEmailChange}
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.Name>Имя</UI.Name>
         <Input
           placeholder='Заполните поле'
           value={firstName}
+          name='name'
           onChange={handleFirstNameChange}
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.Name>Фамилия</UI.Name>
         <Input
           placeholder='Заполните поле'
           value={lastName}
+          name='surname'
           onChange={handleLastNameChange}
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.Name>Группа</UI.Name>
         <Input
           placeholder='Заполните поле'
           value={group}
           onChange={handleGroupChange}
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.Name>Имя пользователя на GitHub</UI.Name>
         <Input
           placeholder='Заполните поле'
           value={ghUsername}
+          name='username'
           onChange={handleGhUsernameChange}
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.Name>Пароль</UI.Name>
         <Input
@@ -98,7 +104,7 @@ const SignUpPage = () => {
           value={passwordValue}
           onChange={handlePasswordChange}
           type='password'
-          disabled={false}
+          disabled={isFetching}
         />
         <UI.LinkText>
           Уже есть аккаунт?
@@ -110,7 +116,7 @@ const SignUpPage = () => {
           <Button
             block
             type='primary'
-            disabled={false}
+            disabled={isFetching}
             onClick={register}
           >
             Зарегистрироваться

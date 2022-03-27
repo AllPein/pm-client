@@ -28,8 +28,7 @@ export const createRequestAction = (requestId, actionCreator, errorHandler) => {
       return result
     } catch (error) {
       if (error) {
-        const errorMessage = error.message
-        notifyError(errorMessage)
+        notifyError('Ошибка', 'Кажется, что-то пошло не так')
       }
       dispatch(requestFailure(requestId, error.message))
       if (errorHandler) {

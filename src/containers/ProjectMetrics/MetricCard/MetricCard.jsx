@@ -1,17 +1,14 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React from 'react'
 import * as UI from './MetricCard.styles'
 import { getAvatarCharacters, getUserCaption } from '@/utils/user'
-import moment from 'moment'
+import { getDuration } from '@/utils/date'
+import plural from 'plural-ru'
 
 const MetricCard = ({
   metric
 }) => {
 
   const isUserObject = () => typeof metric.user === 'object'
-  
-  const getDuration = (time) => {
-    return `${moment.duration(time, 's').get('days')} дней ${moment.duration(time, 's').get('hours')} часов ${moment.duration(time, 's').get('minutes')} минут`
-  }
 
   return (
     <UI.Wrapper>
@@ -31,7 +28,7 @@ const MetricCard = ({
           </p>
         </UI.NameBlock>
         <UI.Text>
-          {metric.metrics.count} коммитов
+          {metric.metrics.count} {plural(metric.metrics.count, 'коммит', 'коммита', 'коммитов')}
         </UI.Text>
         <UI.Text>
           {getDuration(metric.metrics.time)}

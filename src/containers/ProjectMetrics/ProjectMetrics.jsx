@@ -5,12 +5,15 @@ import { fetchProjectTime } from '@/actions/projectView'
 import { projectTimeSelector } from '@/selectors/projectView'
 import { MetricCard } from './MetricCard'
 import { ENV } from '@/utils/env'
+import { isFetchingSelector } from '@/selectors/requests'
+import { Spin } from '@/components/Spin'
 
 const ProjectMetrics = ({
   projectCode
 }) => {
   const dispatch = useDispatch()
   const projectTime = useSelector(projectTimeSelector)
+  const isFetching = useSelector(isFetchingSelector(fetchProjectTime))
 
   useEffect(() => {
     dispatch(fetchProjectTime(projectCode))
@@ -18,6 +21,9 @@ const ProjectMetrics = ({
 
   return (
     <UI.Wrapper>
+      {isFetching && (
+        <Spin spinning />
+      )}
       {projectTime &&
         projectTime.map((par) => (
           <MetricCard 
@@ -26,6 +32,7 @@ const ProjectMetrics = ({
           />
         ))
       }
+      {!projectTime && 'Привяжите репозиторий'}<br></br>
       <a
         download
         href={`${ENV.BACKEND_URL}/projects/${projectCode}/report`}

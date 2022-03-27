@@ -71,7 +71,7 @@ const UserProfile = () => {
             {getUserCaption(userInfo)}
           </UI.FullNameBlock>
           <UI.Group>
-            {userInfo?.group ?? UserRolesName[userInfo?.role]}
+            {userInfo?.group || UserRolesName[userInfo?.role]}
           </UI.Group>
         </UI.UserHeadline>
         <UI.DownIcon />

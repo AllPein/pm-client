@@ -6,6 +6,9 @@ import { usersSelector } from '@/selectors/users'
 import { fetchUsers } from '@/actions/users'
 import { Users } from '@/containers/Users'
 import debounce from 'lodash.debounce'
+import { userInfoSelector } from '@/selectors/user'
+import { goBack } from '@/utils/routerActions'
+import { UserRoles } from '@/enums/Role'
 
 const CHANGE_DEBOUNCE_TIME = 350
 
@@ -13,6 +16,7 @@ const RolesAssignmentPage = () => {
   const [searchValue, setSearchValue] = useState('')
   const dispatch = useDispatch()
   const users = useSelector(usersSelector)
+  const user = useSelector(userInfoSelector)
 
   const debouncedSetValue = useMemo(
     () => debounce(
@@ -36,8 +40,11 @@ const RolesAssignmentPage = () => {
   )
 
   useEffect(() => {
+    if (user.role !== UserRoles.ADMIN) {
+      goBack()
+    }
     dispatch(fetchUsers(''))
-  }, [dispatch])
+  }, [dispatch, user.role])
 
 
 

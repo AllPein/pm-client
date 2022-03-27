@@ -19,6 +19,7 @@ import { fetchUsers } from '@/actions/users/users'
 import debounce from 'lodash.debounce'
 import { ProjectMetrics } from '@/containers/ProjectMetrics'
 import { ProjectReport } from '@/containers/ProjectReport'
+import { notifySuccess } from '../../utils/notification/notification'
 
 const CHANGE_DEBOUNCE_TIME = 350
 
@@ -92,14 +93,19 @@ const ProjectView = ({
         'timeReport',
         'Работа Участников',
         () => (
-          <ProjectMetrics projectCode={project.code} />
+          <ProjectMetrics
+            projectCode={project.code} 
+          />
         )
       ),
       new Tab(
         'projectReport',
         'Отчет',
         () => (
-          <ProjectReport project={project} />
+          <ProjectReport
+            user={userInfo}
+            project={project}
+          />
         )
       )
     ]
@@ -111,13 +117,14 @@ const ProjectView = ({
     dispatch(changeActiveTab(tab))
   }, [dispatch])
 
-  const onAddParticipant = useCallback((user) => {
-    dispatch(addParticipant({
+  const onAddParticipant = useCallback(async (user) => {
+    await dispatch(addParticipant({
         userId: user.id,
         role: ProjectRoles.PARTICIPANT,
         projectId: project.id
       })
     )
+    notifySuccess('Успешно', 'Участник добавлен на проект')
   }, [dispatch, project.id])
 
   const renderAddButton = useCallback((user) => {

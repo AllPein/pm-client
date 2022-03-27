@@ -10,7 +10,6 @@ import { userInfoSelector } from '@/selectors/user'
 import { projectSelector } from '@/selectors/projectView'
 import { useMemo } from 'react'
 
-
 const ProjectInfoPage = () => {
   const { projectCode } = useParams()
   const dispatch = useDispatch() 
@@ -22,7 +21,7 @@ const ProjectInfoPage = () => {
     if (projectCode) {
       dispatch(fetchProject(projectCode))
     }
-  }, [dispatch, projectCode, user.id])
+  }, [dispatch, projectCode])
 
   const userInfo = useMemo(() => {
     if (!project || !user) {
