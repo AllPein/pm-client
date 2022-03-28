@@ -9,36 +9,49 @@ import { isFetchingSelector } from '@/selectors/requests'
 import { Spin } from '@/components/Spin'
 
 const ProjectMetrics = ({
-  projectCode
+  project
 }) => {
   const dispatch = useDispatch()
   const projectTime = useSelector(projectTimeSelector)
   const isFetching = useSelector(isFetchingSelector(fetchProjectTime))
 
   useEffect(() => {
-    dispatch(fetchProjectTime(projectCode))
-  }, [dispatch, projectCode])
+    dispatch(fetchProjectTime(project.code))
+  }, [dispatch, project])
 
   return (
     <UI.Wrapper>
       {isFetching && (
         <Spin spinning />
       )}
-      {projectTime &&
-        projectTime.map((par) => (
-          <MetricCard 
-            key={par.metrics.time}
-            metric={par}
-          />
-        ))
+      {projectTime ? (
+        <>
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href={`${project.repo}/commits`}
+        >
+          История коммитов
+        </a>
+        {
+          projectTime.map((par) => (
+            <MetricCard 
+              key={par.metrics.time}
+              metric={par}
+            />
+          ))
+        }
+        <a
+          download
+          href={`${ENV.BACKEND_URL}/projects/${project.code}/report`}
+        >
+          Скачать отчет
+        </a>
+          </>
+        ) : (
+          <p>Привяжите репозиторий</p>
+        )
       }
-      {!projectTime && 'Привяжите репозиторий'}<br></br>
-      <a
-        download
-        href={`${ENV.BACKEND_URL}/projects/${projectCode}/report`}
-      >
-        Скачать отчет
-      </a>
     </UI.Wrapper>
   )
 }

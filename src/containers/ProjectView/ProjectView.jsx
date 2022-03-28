@@ -94,7 +94,7 @@ const ProjectView = ({
         'Работа Участников',
         () => (
           <ProjectMetrics
-            projectCode={project.code} 
+            project={project}
           />
         )
       ),

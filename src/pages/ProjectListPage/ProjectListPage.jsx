@@ -100,7 +100,7 @@ const ProjectListPage = () => {
           }}
           description={
             <span>
-              Ничего не найдено :(
+              Проектов нет :(
             </span>
           } 
         />

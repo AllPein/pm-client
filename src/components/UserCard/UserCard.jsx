@@ -21,7 +21,7 @@ const UserCard = ({
             {getUserCaption(user)}
           </UI.FullNameBlock>
           <p>
-            {user.ghUsername}
+            {user.ghUsername || 'Логин GitHub'}
           </p>
         </UI.NameBlock>
         <UI.Text>
