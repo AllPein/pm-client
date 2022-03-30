@@ -7,7 +7,7 @@ import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import { useCallback } from 'react'
 import { formatDate } from '@/utils/date'
 import { ProjectRoles } from '@/enums/Role'
-import { notifySuccess } from '../../utils/notification/notification'
+import { notifySuccess } from '@/utils/notification/notification'
 
 const ProjectInfo = ({
   project,

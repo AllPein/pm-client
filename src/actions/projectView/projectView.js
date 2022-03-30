@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions'
-import { createRequestAction } from '../requests'
+import { createRequestAction } from '@/actions/requests'
 import { projectsApi } from '@/api/projectsApi'
 
 const FEATURE_NAME = 'PROJECT_VIEW'

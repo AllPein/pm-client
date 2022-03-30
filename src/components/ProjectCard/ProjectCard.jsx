@@ -1,8 +1,7 @@
 import React from 'react'
 import * as UI from './ProjectCard.styles'
 import { Avatar } from 'antd'
-import moment from 'moment'
-import { formatDate } from '../../utils/date'
+import { formatDate } from '@/utils/date'
 
 const ProjectCard = ({
   project,

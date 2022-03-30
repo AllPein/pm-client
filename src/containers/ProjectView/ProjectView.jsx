@@ -19,7 +19,7 @@ import { fetchUsers } from '@/actions/users/users'
 import debounce from 'lodash.debounce'
 import { ProjectMetrics } from '@/containers/ProjectMetrics'
 import { ProjectReport } from '@/containers/ProjectReport'
-import { notifySuccess } from '../../utils/notification/notification'
+import { notifySuccess } from '@/utils/notification/notification'
 
 const CHANGE_DEBOUNCE_TIME = 350
 

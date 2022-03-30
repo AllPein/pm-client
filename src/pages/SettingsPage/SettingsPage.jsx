@@ -7,7 +7,7 @@ import { Input } from 'antd'
 import { useCallback } from 'react'
 import { setUserInfo, updateUser } from '@/actions/user'
 import { goBack } from '@/utils/routerActions'
-import { notifySuccess } from '../../utils/notification/notification'
+import { notifySuccess } from '@/utils/notification/notification'
 
 const SettingsPage = () => {
   const dispatch = useDispatch() 

@@ -13,7 +13,7 @@ import { updateUser } from '@/actions/user'
 import { fetchUsers } from '@/actions/users'
 import { isFetchingSelector } from '@/selectors/requests'
 import { Spin } from '@/components/Spin'
-import { notifySuccess } from '../../utils/notification/notification'
+import { notifySuccess } from '@/utils/notification/notification'
 
 const Users = ({
   users

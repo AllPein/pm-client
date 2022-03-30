@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import * as UI from './ProjectMetrics.styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProjectTime } from '@/actions/projectView'
