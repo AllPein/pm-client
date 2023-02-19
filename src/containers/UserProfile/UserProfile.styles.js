@@ -21,7 +21,7 @@ const StyledAvatar = styled(Avatar)`
   font-size: 1.2rem;
   line-height: 3rem;
   background-color: ${(props) => props.color};
-  border: 1px solid ${(props) => props.theme.color.grayscale1};
+  border: 0.1rem solid ${(props) => props.theme.color.grayscale1};
 `
 
 const StyledButton = styled(Button)`
@@ -49,7 +49,7 @@ const ProfileMenuOption = styled.div`
   margin: 0;
   min-width: 16rem;
   &:hover {
-    border-left: 2px solid ${(props) => props.theme.color.primary2};
+    border-left: 0.1rem solid ${(props) => props.theme.color.primary2};
     color: ${(props) => props.theme.color.grayscale5};
   }
 `

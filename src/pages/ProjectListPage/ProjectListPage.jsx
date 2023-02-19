@@ -34,9 +34,9 @@ const ProjectListPage = () => {
   const currentPage = useSelector(pageSelector)
   const user = useSelector(userInfoSelector)
 
-  useEffect(() => {
-    dispatch(fetchProjects())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchProjects())
+  // }, [dispatch])
 
   const setPage = useCallback((page) => {
     window.scrollTo({
@@ -214,7 +214,7 @@ const ProjectListPage = () => {
         {renderProjects}
       </UI.Wrapper>
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         title='Создание проекта'
         onOk={addProject}
         onCancel={() => toggleModal(false)}

@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions'
 import { ProjectRoles } from '@/enums/Role'
 import { userApi } from '@/api/userApi'
 import { createRequestAction } from '@/actions/requests'
+import { setProjects } from '../projects/projects'
 
 const FEATURE_NAME = 'USER'
 
@@ -18,6 +19,7 @@ export const fetchUserData =  createRequestAction(
   () => async (dispatch) => {
     const user = await userApi.fetchUser()
     dispatch(setUserInfo(user))
+    dispatch(setProjects(user.projects))
     return user
   }
 )

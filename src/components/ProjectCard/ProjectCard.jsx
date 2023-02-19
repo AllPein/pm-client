@@ -23,7 +23,7 @@ const ProjectCard = ({
           Сдать до: {formatDate(project.dueDate)}
         </UI.FooterInfo>
         <UI.FooterInfo>
-          Участников: {project.participants.length}
+          Участников: {project.participants?.length}
         </UI.FooterInfo>   
       </UI.Footer>
     </UI.ProjectInfo>

@@ -2,6 +2,15 @@ import { createGlobalStyle } from 'styled-components'
 import '@/assets/fonts/fonts.css'
 
 export const GlobalStyles = createGlobalStyle`
+  .react-kanban-column {
+    width: 23rem;
+  }
+
+
+  p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+  }
   html {
     font-size: 62.5%; /* 10px */
   }

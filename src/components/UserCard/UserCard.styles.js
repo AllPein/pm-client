@@ -41,7 +41,7 @@ const StyledAvatar = styled(Avatar)`
   margin-top: 0.6rem;
   line-height: 3rem;
   background-color: ${(props) => props.color};
-  border: 1px solid ${(props) => props.theme.color.grayscale1};
+  border: 0.1rem solid ${(props) => props.theme.color.grayscale1};
 `
 
 const NameBlock = styled.div`

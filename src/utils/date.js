@@ -5,6 +5,10 @@ export const formatDate = (d) => {
   return moment(new Date(d)).format('DD.MM.yyyy')
 }
 
+export const formatDateWithTime = (d) => {
+  return moment(new Date(d)).format('DD.MM.yyyy, hh:mm A')
+}
+
 export const getDuration = (time) => {
   const days = moment.duration(time, 's').get('days')
   const hours = moment.duration(time, 's').get('hours')

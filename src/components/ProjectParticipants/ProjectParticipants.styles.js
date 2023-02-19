@@ -2,7 +2,7 @@ import { Button, Divider } from 'antd'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  max-height: 40rem;
+  max-height: 23.5rem;
 `
 
 const StyledDivider = styled(Divider)`

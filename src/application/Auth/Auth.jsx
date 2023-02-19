@@ -11,17 +11,17 @@ const SignInPage = lazy(() => import('@/pages/Authorization/SignIn'), 'SignInPag
 
 const Auth = () => {
   const renderRoot = useCallback(() => {
-    if (!authProvider.isAuthenticated()) {
-      return (
-        <Redirect to={
-          {
-            pathname: '/signin',
-            state: window.location.href
-          }
-        } 
-        />
-      )
-    }
+    // if (!authProvider.isAuthenticated()) {
+    //   return (
+    //     <Redirect to={
+    //       {
+    //         pathname: '/signin',
+    //         state: window.location.href
+    //       }
+    //     } 
+    //     />
+    //   )
+    // }
     return (
       <Root />
     )

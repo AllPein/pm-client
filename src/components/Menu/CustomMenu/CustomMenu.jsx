@@ -33,7 +33,7 @@ class CustomMenu extends PureComponent {
     })
   }
 
-  onVisibleChange = (visible) => {
+  onOpenChange = (visible) => {
     this.setState({
       visible
     })
@@ -64,14 +64,14 @@ class CustomMenu extends PureComponent {
       arrow={this.props.arrow}
       disabled={this.props.disabled}
       getPopupContainer={this.props.getPopupContainer || this.getPopupContainer}
-      onVisibleChange={this.onVisibleChange}
-      overlay={this.renderMenu()}
+      onOpenChange={this.onOpenChange}
+      menu={this.renderMenu()}
       trigger={
         [
           this.props.trigger || MenuTrigger.CLICK
         ]
       }
-      visible={this.state.visible}
+      open={this.state.visible}
     >
       {this.props.children}
     </Dropdown>

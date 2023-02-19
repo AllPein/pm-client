@@ -116,7 +116,7 @@ const Users = ({
         )
       }
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         title='Назначить роль'
         onOk={onModalOk}
         onCancel={() => toggleModal(false)}

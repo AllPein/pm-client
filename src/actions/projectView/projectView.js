@@ -8,6 +8,14 @@ export const setProject = createAction(
   `${FEATURE_NAME}/SET_PROJECT`
 )
 
+export const setTasksFilter = createAction(
+  `${FEATURE_NAME}/SET_TASKS_FILTER`
+)
+
+export const setProjectTasks = createAction(
+  `${FEATURE_NAME}/SET_PROJECT_TASKS`
+)
+
 export const setActiveTab = createAction(
   `${FEATURE_NAME}/SET_ACTIVE_TAB`
 )
@@ -56,12 +64,36 @@ export const addParticipant = createRequestAction(
   }
 )
 
-
 export const updateParticipant = createRequestAction(
   'updateParticipant',
   (data) => async (dispatch) => {
     const project = await projectsApi.updateParticipant(data)
     dispatch(setProject(project))
     return project
+  }
+)
+
+export const updateTasksFilter = createRequestAction(
+  'updateTasksFilter',
+  ({ key, participant }) => (dispatch, getState) => {
+    const state = getState()
+    const prevFiltersStateValue = state.projectView.tasksFilter.value
+    const newTasksFilter = {
+      key: key,
+      value: prevFiltersStateValue.includes(participant.id) ?
+        prevFiltersStateValue.filter((participantId) => participantId !== participant.id) :
+        [...prevFiltersStateValue, participant.id]
+    }
+    dispatch(setTasksFilter(newTasksFilter))
+  }
+)
+
+export const updateTask = createRequestAction(
+  'updateTask',
+  (task) => (dispatch, getState) => {
+    const state = getState()
+    const prevProjectTasks = state.projectView.project.tasks
+
+    dispatch(setProjectTasks(prevProjectTasks.map((projectTask) => projectTask.id === task.id ? task : projectTask)))
   }
 )

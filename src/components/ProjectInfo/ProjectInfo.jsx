@@ -1,13 +1,14 @@
 import React, { useState, useMemo } from 'react'
 import * as UI from './ProjectInfo.styles'
-import { Avatar, Input, Tooltip } from 'antd'
+import { Avatar, Input, Tooltip, Button } from 'antd'
 import { projectShape } from '@/models/Project'
-import { Button } from 'antd/lib/radio'
 import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import { useCallback } from 'react'
 import { formatDate } from '@/utils/date'
 import { ProjectRoles } from '@/enums/Role'
 import { notifySuccess } from '@/utils/notification/notification'
+import { goTo } from '@/utils/routerActions'
+import { history } from '@/utils/history'
 
 const ProjectInfo = ({
   project,
@@ -73,6 +74,10 @@ const ProjectInfo = ({
     )
   }, [isEditing, onInputChange, renderEditTooltip, repoValue, user.projectRole])
 
+  const handleRedirectToTasks = useCallback(() => {
+    goTo(history.location.pathname + '/tasks')
+  }, [])
+
   return (
     <UI.Wrapper>
       <UI.Controls>
@@ -94,6 +99,12 @@ const ProjectInfo = ({
             </UI.InfoControls>
             {renderRepoLink}
           </UI.RepoHandler>
+          <UI.StyledButton 
+            type='primary' 
+            onClick={handleRedirectToTasks}
+          >
+            Перейти к задачам
+          </UI.StyledButton>
         </UI.RightControls>
       </UI.Controls>
       <UI.DescriptionName>

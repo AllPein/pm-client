@@ -7,3 +7,7 @@ export function goBack () {
 export function goTo (link) {
   history.push(link)
 }
+
+export function replaceWith(link) {
+  history.replace(link)
+}

@@ -1,4 +1,4 @@
-import { Input } from 'antd'
+import { Button, Input } from 'antd'
 import styled from 'styled-components'
 
 const { Group } = Input
@@ -64,10 +64,15 @@ const RightControls = styled.div`
   max-width: 50rem;
 `
 
+const StyledButton = styled(Button)`
+  margin-top: 1rem;
+`
+
 
 export {
   RightControls,
   Controls,
+  StyledButton,
   Wrapper,
   RepoHandler,
   StyledInput,

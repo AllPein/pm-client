@@ -1,0 +1,28 @@
+{
+    "cSpell.words": [
+        "Bento",
+        "reduxjs"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
+    },
+    "css.validate": true,
+    "less.validate": false,
+    "scss.validate": false,
+    "eslint.validate": [
+        "javascript",
+        "typescript",
+        "typescriptreact",
+        "javascriptreact"
+    ],
+    "emmet.includeLanguages": {
+        "postcss": "css"
+    },
+    "remote.SSH.localServerDownload": "always",
+    "testcafeTestRunner.useHeadlessMode": true,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "cSpell.language": "en,ru",
+    "cSpell.enabled": true
+}

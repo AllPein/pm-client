@@ -60,7 +60,7 @@ const UserProfile = () => {
     <UI.StyledMenu
       arrow
       items={getMenuItems()}
-      trigger={MenuTrigger.HOVER}
+      trigger={MenuTrigger.CLICK}
     >
       <UI.StyledButton>
         <UI.StyledAvatar color={userInfo?.avatarColor}>

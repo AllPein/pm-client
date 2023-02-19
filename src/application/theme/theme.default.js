@@ -40,8 +40,6 @@ export const theme = {
   size: {
     siderExpandedWidth: '22rem',
     siderCollapsedWidth: '5.6rem',
-    drawerWidth: '45rem',
-    drawerWidthDocumentReview: '36rem'
   }
 }
 
@@ -82,7 +80,5 @@ export const themeShape = PropTypes.shape({
   size: PropTypes.shape({
     siderExpandedWidth: PropTypes.string.isRequired,
     siderCollapsedWidth: PropTypes.string.isRequired,
-    drawerWidth: PropTypes.string.isRequired,
-    drawerWidthDocumentReview: PropTypes.string.isRequired
   })
 })

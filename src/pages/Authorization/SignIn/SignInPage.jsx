@@ -10,11 +10,11 @@ const SignInPage = () => {
   const dispatch = useDispatch()
   const isFetching = useSelector(isFetchingSelector(signIn))
 
-  const [emailValue, setEmailValue] = useState('')
+  const [usernameValue, setUsernameValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
 
-  const handleEmailChange = (event) => {
-    setEmailValue(event.target.value)
+  const handleUsernameChange = (event) => {
+    setUsernameValue(event.target.value)
   }
 
   const handlePasswordChange = (event) => {
@@ -23,22 +23,22 @@ const SignInPage = () => {
 
   const handleLogin = useCallback(async () => {
     await dispatch(signIn({
-      email: emailValue,
+      username: usernameValue,
       password: passwordValue
     }))
     goTo('/')
-  }, [dispatch, emailValue, passwordValue])
+  }, [dispatch, usernameValue, passwordValue])
 
 
   return (
     <UI.Wrapper>
       <UI.FormLogin>
-        <UI.Name>E-mail</UI.Name>
+        <UI.Name>Имя пользователя</UI.Name>
         <Input
-          name='email'
+          name='username'
           placeholder='Заполните поле'
-          value={emailValue}
-          onChange={handleEmailChange}
+          value={usernameValue}
+          onChange={handleUsernameChange}
           disabled={isFetching}
         />
         <UI.Name>Пароль</UI.Name>

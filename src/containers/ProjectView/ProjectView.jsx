@@ -204,7 +204,7 @@ const ProjectView = ({
         <Empty />
       )}
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         width='100rem'
         title='Добавить участника'
         onOk={() => toggleModal(false)}
