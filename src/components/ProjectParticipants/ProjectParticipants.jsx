@@ -5,6 +5,7 @@ import { userShape } from '@/models/User'
 import { UserCard } from '@/components/UserCard'
 import { ProjectRoles } from '@/enums/Role'
 import { Button } from 'antd'
+import { participantShape } from '@/models/Project'
 
 const ROLES_TO_UPDATE = [ProjectRoles.OWNER]
 const ROLES_TO_MAKE_TEAM_LEAD = [ProjectRoles.PARTICIPANT]
@@ -57,7 +58,7 @@ const ProjectParticipants = ({
 }
 
 ProjectParticipants.propTypes = {
-  participants: PropTypes.arrayOf(userShape).isRequired,
+  participants: PropTypes.arrayOf(participantShape).isRequired,
   onAddButtonClick: PropTypes.func,
   onAssignTeamLead: PropTypes.func,
   userInfo: userShape

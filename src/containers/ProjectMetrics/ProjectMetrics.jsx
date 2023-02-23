@@ -16,7 +16,7 @@ const ProjectMetrics = ({
   const isFetching = useSelector(isFetchingSelector(fetchProjectTime))
 
   useEffect(() => {
-    dispatch(fetchProjectTime(project.code))
+    dispatch(fetchProjectTime(project.id))
   }, [dispatch, project])
 
   return (
@@ -43,7 +43,7 @@ const ProjectMetrics = ({
         }
         <a
           download
-          href={`${ENV.BACKEND_URL}/projects/${project.code}/report`}
+          href={`${ENV.BACKEND_URL}/projects/${project.id}/report`}
         >
           Скачать отчет
         </a>

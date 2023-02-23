@@ -26,7 +26,6 @@ const ProjectReport = ({
       const response = await fileApi.uploadFile(data, 'raw')
       await dispatch(updateProject({
         id: project.id,
-        code: project.code,
         reportUrl: response.data.url,
         reportName: file.name
       }))
@@ -40,12 +39,11 @@ const ProjectReport = ({
   const onFileRemove = useCallback(async (info) => {
     await dispatch(updateProject({
       id: project.id,
-      code: project.code,
       reportUrl: '',
       reportName: ''
     }))
     notifySuccess('Упешно', 'Отчет удален')
-  }, [dispatch, project.code, project.id])
+  }, [dispatch, project])
 
   useEffect(() => {
     if (project.reportUrl) {

@@ -16,3 +16,14 @@ export const fetchUsers =  createRequestAction(
     return users
   }
 )
+
+export const fetchUsersInProject =  createRequestAction(
+  'fetchUsersInProject',
+  (filter, projectId) => async (dispatch) => {
+    const users = await userApi.fetchUsersInProject(filter, projectId)
+    dispatch(setUsers(users))
+    return users
+  }
+)
+
+

@@ -5,7 +5,7 @@ import * as UI from './SettingsPage.styles'
 import { getAvatarCharacters } from '@/utils/user'
 import { Input } from 'antd'
 import { useCallback } from 'react'
-import { setUserInfo, updateUser } from '@/actions/user'
+import { updateUser } from '@/actions/user'
 import { goBack } from '@/utils/routerActions'
 import { notifySuccess } from '@/utils/notification/notification'
 
@@ -40,7 +40,7 @@ const SettingsPage = () => {
   }
 
   const onSave = useCallback(async () => {
-    const updatedUser = await dispatch(updateUser({
+   await dispatch(updateUser({
       ...userInfo,
       group,
       ghUsername,
@@ -48,8 +48,7 @@ const SettingsPage = () => {
       lastName: lastNameValue,
       email: emailValue
     }))
-    await dispatch(setUserInfo(updatedUser))
-    notifySuccess('Успешно', 'Данные успешно сохранены!')
+    await notifySuccess('Успешно', 'Данные успешно сохранены!')
   }, [dispatch, emailValue, firstNameValue, ghUsername, group, lastNameValue, userInfo])
 
   const back = useCallback(() => {

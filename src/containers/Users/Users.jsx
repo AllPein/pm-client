@@ -9,7 +9,7 @@ import { UserCard } from '@/components/UserCard'
 import { Button } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserRoles, UserRolesName } from '@/enums/Role'
-import { updateUser } from '@/actions/user'
+import { updateAnotherUser } from '@/actions/user'
 import { fetchUsers } from '@/actions/users'
 import { isFetchingSelector } from '@/selectors/requests'
 import { Spin } from '@/components/Spin'
@@ -46,7 +46,7 @@ const Users = ({
   ], [setCurrentUserRole])
 
   const onModalOk = useCallback(async () => {
-    await dispatch(updateUser({
+    await dispatch(updateAnotherUser({
       ...currentUser,
       role: currentUserRole
     }))

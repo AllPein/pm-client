@@ -1,43 +1,48 @@
-import get from 'lodash/get'
-import { createSelector } from 'reselect'
+import get from "lodash/get";
+import { createSelector } from "reselect";
 
-const projectViewRootSelector = (state) => get(state, 'projectView')
+const projectViewRootSelector = (state) => get(state, "projectView");
 
 const projectSelector = createSelector(
   [projectViewRootSelector],
-  (projectView) => get(projectView, 'project')
-)
+  (projectView) => get(projectView, "project")
+);
 
 const tasksFilterSelector = createSelector(
   [projectViewRootSelector],
-  (projectView) => get(projectView, 'tasksFilter')
-)
+  (projectView) => get(projectView, "tasksFilter")
+);
 
 const activeTabSelector = createSelector(
   [projectViewRootSelector],
-  (projectView) => get(projectView, 'activeTab')
-)
+  (projectView) => get(projectView, "activeTab")
+);
 
 const projectTimeSelector = createSelector(
   [projectViewRootSelector],
-  (projectView) => get(projectView, 'projectTime')
-)
+  (projectView) => get(projectView, "projectTime")
+);
+
+const selectedTaskSelector = createSelector(
+  [projectViewRootSelector],
+  (projectView) => get(projectView, "selectedTask")
+);
 
 const projectParticipantsSelector = createSelector(
   [projectSelector],
-  (projectView) => get(projectView, 'participants')
-)
+  (projectView) => get(projectView, "participants")
+);
 
-const projectTasksSelector = createSelector(
-  [projectSelector],
-  (projectView) => get(projectView, 'tasks')
-)
+const projectTasksSelector = createSelector([projectSelector], (projectView) =>
+  get(projectView, "tasks")
+);
 
 export {
   projectSelector,
   projectTasksSelector,
+  selectedTaskSelector,
   tasksFilterSelector,
   projectTimeSelector,
   projectParticipantsSelector,
-  activeTabSelector
-}
+  activeTabSelector,
+};

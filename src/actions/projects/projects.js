@@ -1,26 +1,33 @@
-import { createRequestAction } from '@/actions/requests'
-import { createAction } from 'redux-actions'
-import { projectsApi } from '@/api/projectsApi'
+import { createRequestAction } from "@/actions/requests";
+import { createAction } from "redux-actions";
+import { projectsApi } from "@/api/projectsApi";
 
-const FEATURE_NAME = 'PROJECTS'
+const FEATURE_NAME = "PROJECTS";
 
-export const setProjects = createAction(
-  `${FEATURE_NAME}/SET_PROJECTS`
-)
+export const setProjects = createAction(`${FEATURE_NAME}/SET_PROJECTS`);
 
 export const fetchProjects = createRequestAction(
-  'fetchProjects',
-  (data) => async (dispatch) => {
-    const projects = await projectsApi.fetchProjects(data)
-    dispatch(setProjects(projects))
-    return projects
+  "fetchProjects",
+  () => async (dispatch) => {
+    const projects = await projectsApi.fetchProjects();
+    dispatch(setProjects(projects));
+    return projects;
   }
-)
+);
+
+export const fetchAllProjects = createRequestAction(
+  "fetchAllProjects",
+  () => async (dispatch) => {
+    const projects = await projectsApi.fetchAllProjects();
+    dispatch(setProjects(projects.projects));
+    return projects;
+  }
+);
 
 export const createProject = createRequestAction(
-  'createProject',
+  "createProject",
   (data) => async (dispatch) => {
-    const project = await projectsApi.createProject(data)
-    return project
+    const project = await projectsApi.createProject(data);
+    return project;
   }
-)
+);

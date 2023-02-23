@@ -65,7 +65,7 @@ class CustomMenu extends PureComponent {
       disabled={this.props.disabled}
       getPopupContainer={this.props.getPopupContainer || this.getPopupContainer}
       onOpenChange={this.onOpenChange}
-      menu={this.renderMenu()}
+      overlay={this.renderMenu()}
       trigger={
         [
           this.props.trigger || MenuTrigger.CLICK

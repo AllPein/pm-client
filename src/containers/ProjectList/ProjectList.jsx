@@ -7,7 +7,7 @@ const ProjectList = ({
   projects
 }) => {
   const openProject = useCallback((project) => {
-    goTo(`/projects/${project.code}`)
+    goTo(`/projects/${project.id}`)
   }, [])
 
 
@@ -15,7 +15,7 @@ const ProjectList = ({
     <UI.Wrapper>
       {projects.map((p) => (
         <ProjectCard 
-          key={p.code}
+          key={p.code + p.name}
           project={p}
           openProject={() => openProject(p)}
         />

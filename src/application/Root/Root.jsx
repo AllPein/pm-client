@@ -1,69 +1,61 @@
-import { Suspense } from 'react'
-import { Redirect, Switch } from 'react-router-dom'
-import { ErrorBoundRoute } from '@/components/ErrorBoundRoute'
-import { Spin } from '@/components/Spin'
-import { lazy } from '@/utils/lazy'
-import { ApplicationLayout } from '@/application/ApplicationLayout'
-import { TasksPage } from '../../pages/TasksPage'
+import { Suspense } from "react";
+import { Redirect, Switch } from "react-router-dom";
+import { ErrorBoundRoute } from "@/components/ErrorBoundRoute";
+import { Spin } from "@/components/Spin";
+import { lazy } from "@/utils/lazy";
+import { ApplicationLayout } from "@/application/ApplicationLayout";
 
-const ProjectListPage = lazy(() => import('@/pages/ProjectListPage'), 'ProjectListPage')
-const ProjectInfoPage = lazy(() => import('@/pages/ProjectInfoPage'), 'ProjectInfoPage')
-const SettingsPage = lazy(() => import('@/pages/SettingsPage'), 'SettingsPage')
-const RolesAssignmentPage = lazy(() => import('@/pages/RolesAssignmentPage'), 'RolesAssignmentPage')
+const ProjectListPage = lazy(
+  () => import("@/pages/ProjectListPage"),
+  "ProjectListPage"
+);
+const ProjectInfoPage = lazy(
+  () => import("@/pages/ProjectInfoPage"),
+  "ProjectInfoPage"
+);
+const SettingsPage = lazy(() => import("@/pages/SettingsPage"), "SettingsPage");
+const RolesAssignmentPage = lazy(
+  () => import("@/pages/RolesAssignmentPage"),
+  "RolesAssignmentPage"
+);
+const TasksPage = lazy(() => import("@/pages/TasksPage"), "TasksPage");
+const TaskPreview = lazy(
+  () => import("@/containers/TaskPreview"),
+  "TaskPreview"
+);
 
 const Root = () => {
   const renderRoot = () => (
     <ApplicationLayout>
       <Switch>
-        <Redirect
-          exact
-          from='/'
-          to='/projects'
-        />
-        <ErrorBoundRoute
-          exact
-          path='/projects'
-        >
+        <Redirect exact from="/" to="/projects" />
+        <ErrorBoundRoute exact path="/projects">
           <ProjectListPage />
         </ErrorBoundRoute>
-        <ErrorBoundRoute
-          exact
-          path='/projects/:projectCode'
-        >
+        <ErrorBoundRoute exact path="/projects/:projectCode">
           <ProjectInfoPage />
         </ErrorBoundRoute>
-        <ErrorBoundRoute
-          exact
-          path='/projects/:projectCode/tasks'
-        >
+        <ErrorBoundRoute exact path="/projects/:projectCode/tasks">
           <TasksPage />
         </ErrorBoundRoute>
-        <ErrorBoundRoute
-          exact
-          path='/user/settings'
-        >
+        <ErrorBoundRoute exact path="/projects/:projectCode/tasks/:taskId">
+          <TaskPreview />
+        </ErrorBoundRoute>
+        <ErrorBoundRoute exact path="/user/settings">
           <SettingsPage />
         </ErrorBoundRoute>
-        <ErrorBoundRoute
-          exact
-          path='/admin/roles'
-        >
+        <ErrorBoundRoute exact path="/admin/roles">
           <RolesAssignmentPage />
         </ErrorBoundRoute>
       </Switch>
     </ApplicationLayout>
-  )
+  );
 
   return (
     <Suspense fallback={<Spin.Centered spinning />}>
-      <ErrorBoundRoute
-        path='/' 
-        render={renderRoot}
-      />
+      <ErrorBoundRoute path="/" render={renderRoot} />
     </Suspense>
-  )
-}
+  );
+};
 
-export {
-  Root
-}
+export { Root };
