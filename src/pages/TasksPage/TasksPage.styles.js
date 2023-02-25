@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { BackLink } from "@/components/BackLink";
 
 const Wrapper = styled.div`
   display: flex;
