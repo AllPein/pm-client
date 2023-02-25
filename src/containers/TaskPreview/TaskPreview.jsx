@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { Avatar, Input, Select } from "antd";
 import { getAvatarCharacters } from "@/utils/user";
 import { formatDateWithTime } from "@/utils/date";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { TaskStatus, TaskStatusToTitle } from "@/enums/Task";
 import { validateEstimatedTime } from "@/utils/validate";
 
@@ -145,7 +145,7 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.StyledButton
         type="text"
         onClick={handleCloseTaskPreview}
-        icon={<CloseCircleOutlined />}
+        icon={<CloseOutlined />}
       />
       {!isEditingTitle ? (
         <UI.TaskTitle onClick={() => setIsEditingTitle(true)}>

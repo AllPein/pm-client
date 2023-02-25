@@ -17,7 +17,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledButton = styled(Button)`
-  margin-left: 12rem;
+  margin-left: 2.4rem;
   margin-bottom: 0.5rem;
 `;
 

@@ -33,7 +33,7 @@ const generateBoardColumn = (title, status, cards) => ({
   cards,
 });
 
-const BoardComponent = ({ projectId }) => {
+const BoardComponent = ({ projectId, taskSelected }) => {
   const dispatch = useDispatch();
 
   const participants = useSelector(projectParticipantsSelector);
@@ -46,6 +46,11 @@ const BoardComponent = ({ projectId }) => {
   const [estimatedTime, setEstimatedTime] = useState("");
   const [taskAsigneeId, setTaskAsigneeId] = useState("");
   const [error, setError] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleChangeSearchValue = (e) => {
+    setSearchValue(e.target.value);
+  };
 
   const handleChangeTaskName = (e) => {
     setTaskName(e.target.value);
@@ -89,14 +94,21 @@ const BoardComponent = ({ projectId }) => {
 
   const mappedProjectTasks = useMemo(
     () =>
-      projectTasks.map((task) => ({
-        ...task,
-        key: task.id,
-        asignee:
-          participants.find((participant) => participant.id === task.asignee) ??
-          null,
-      })),
-    [participants, projectTasks]
+      projectTasks
+        .filter(
+          (task) =>
+            task.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            task.description.toLowerCase().includes(searchValue.toLowerCase())
+        )
+        .map((task) => ({
+          ...task,
+          key: task.id,
+          asignee:
+            participants.find(
+              (participant) => participant.id === task.asignee
+            ) ?? null,
+        })),
+    [participants, projectTasks, searchValue]
   );
 
   const board = useMemo(() => {
@@ -115,7 +127,7 @@ const BoardComponent = ({ projectId }) => {
         );
       }),
     };
-  }, [mappedProjectTasks, tasksFilter]);
+  }, [mappedProjectTasks, tasksFilter.value]);
 
   const handleDragCard = (card, _, destination) => {
     const newCardStatus =
@@ -128,7 +140,8 @@ const BoardComponent = ({ projectId }) => {
           asignee: card.asignee?.id,
           status: newCardStatus,
         },
-        projectId
+        projectId,
+        taskSelected
       )
     );
   };
@@ -201,6 +214,8 @@ const BoardComponent = ({ projectId }) => {
       <UI.BoardHeader>
         <UI.StyledInput
           size="large"
+          value={searchValue}
+          onChange={handleChangeSearchValue}
           placeholder="Поиск по доске"
           prefix={<SearchOutlined />}
         />

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { projectSelector } from "@/selectors/projectView";
 import { TaskPreview } from "@/containers/TaskPreview";
 import { selectedTaskSelector } from "../../selectors/projectView";
+import { BackLink } from "../../components/BackLink";
 
 const getItem = (label, key, icon, children, type) => ({
   key,
@@ -46,6 +47,11 @@ const TasksPage = () => {
     project && (
       <UI.Wrapper>
         <UI.Sidebar>
+          <BackLink
+            style={{ margin: "2rem" }}
+            anchor="К проекту"
+            backLink={`/projects/${projectCode}`}
+          />
           <Menu
             style={{ height: "100%", paddingTop: "3rem" }}
             defaultSelectedKeys={[currentMode]}
@@ -56,9 +62,12 @@ const TasksPage = () => {
         </UI.Sidebar>
 
         {currentMode === "board" ? (
-          <BoardComponent projectId={projectCode} />
+          <BoardComponent
+            projectId={projectCode}
+            taskSelected={!!selectedTask}
+          />
         ) : (
-          <TasksComponent />
+          <TasksComponent project={project} />
         )}
         {selectedTask && (
           <TaskPreview selectedTask={selectedTask} project={project} />

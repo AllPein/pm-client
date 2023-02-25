@@ -34,7 +34,7 @@ const ProjectInfoPage = () => {
 
   return (
     <UI.Wrapper>
-      <BackLink anchor="Все проекты" />
+      <BackLink anchor="Все проекты" backLink={"/projects"} />
       {project && user && <ProjectView project={project} userInfo={userInfo} />}
     </UI.Wrapper>
   );

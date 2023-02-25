@@ -89,21 +89,24 @@ export const updateTasksFilter = createRequestAction(
 
 export const updateTask = createRequestAction(
   "updateTask",
-  (task, projectId) => async (dispatch, getState) => {
-    const state = getState();
-    const prevProjectTasks = state.projectView.project.tasks;
-    const updatedTask = await projectsApi.updateTask(task, projectId);
+  (task, projectId, withSelection = true) =>
+    async (dispatch, getState) => {
+      const state = getState();
+      const prevProjectTasks = state.projectView.project.tasks;
+      const updatedTask = await projectsApi.updateTask(task, projectId);
 
-    dispatch(
-      setProjectTasks(
-        prevProjectTasks.map((projectTask) =>
-          projectTask.id === updatedTask.id ? updatedTask : projectTask
+      dispatch(
+        setProjectTasks(
+          prevProjectTasks.map((projectTask) =>
+            projectTask.id === updatedTask.id ? updatedTask : projectTask
+          )
         )
-      )
-    );
+      );
 
-    dispatch(setSelectedTask(updatedTask));
-  }
+      if (withSelection) {
+        dispatch(setSelectedTask(updatedTask));
+      }
+    }
 );
 
 export const createTask = createRequestAction(
@@ -113,6 +116,8 @@ export const createTask = createRequestAction(
     const prevProjectTasks = state.projectView.project.tasks;
     const newTask = await projectsApi.createTask(task, projectId);
 
-    dispatch(setProjectTasks(prevProjectTasks.push(newTask)));
+    const newTasks = [...prevProjectTasks, newTask];
+
+    dispatch(setProjectTasks(newTasks));
   }
 );

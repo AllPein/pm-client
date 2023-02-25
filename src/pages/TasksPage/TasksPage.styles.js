@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BackLink } from "@/components/BackLink";
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,6 +9,7 @@ const Wrapper = styled.div`
 const Sidebar = styled.div`
   max-width: 40rem;
   height: 100%;
+  padding-top: 2rem;
 `;
 
 export { Wrapper, Sidebar };
