@@ -20,9 +20,13 @@ const fetchProjectTime = (code) =>
 const updateTask = (task, projectId) =>
   apiRequest.patch(`${ENV.BACKEND_URL}/project/${projectId}/task/`, task);
 
+const createTask = (task, projectId) =>
+  apiRequest.post(`${ENV.BACKEND_URL}/project/${projectId}/task/`, task);
+
 export {
   fetchProject,
   fetchProjects,
+  createTask,
   addParticipant,
   updateTask,
   fetchAllProjects,

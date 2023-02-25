@@ -37,11 +37,19 @@ const StyledButton = styled(Button)`
   float: right;
 `;
 
+const EstimatedTimeError = styled.p`
+  margin: 1.2rem 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: ${(props) => props.theme.color.error};
+`;
+
 export {
   StyledButton,
   Wrapper,
   TaskEstimate,
   FieldLabel,
+  EstimatedTimeError,
   ParticipantWrapper,
   InputWrapper,
   TaskTitle,

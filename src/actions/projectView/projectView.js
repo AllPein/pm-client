@@ -105,3 +105,14 @@ export const updateTask = createRequestAction(
     dispatch(setSelectedTask(updatedTask));
   }
 );
+
+export const createTask = createRequestAction(
+  "createTask",
+  (task, projectId) => async (dispatch, getState) => {
+    const state = getState();
+    const prevProjectTasks = state.projectView.project.tasks;
+    const newTask = await projectsApi.createTask(task, projectId);
+
+    dispatch(setProjectTasks(prevProjectTasks.push(newTask)));
+  }
+);

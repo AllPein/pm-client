@@ -1,4 +1,4 @@
-import { AutoComplete, Avatar } from "antd";
+import { Avatar } from "antd";
 import React, { useMemo } from "react";
 import * as UI from "./ParticipantAutocomplete.styles";
 import { getAvatarCharacters } from "@/utils/user";
@@ -39,7 +39,7 @@ const ParticipantAutocomplete = ({ participants, asigneeId, onSelect }) => {
         </Avatar>
       )}
 
-      <AutoComplete
+      <UI.StyledAutoComplete
         value={
           selectedAsignee
             ? `${selectedAsignee?.user.firstName} ${selectedAsignee?.user.lastName}`
@@ -48,7 +48,6 @@ const ParticipantAutocomplete = ({ participants, asigneeId, onSelect }) => {
         popupClassName="certain-category-search-dropdown"
         dropdownMatchSelectWidth={200}
         onSelect={onSelect}
-        style={{ width: 180 }}
         options={autocompleteOptions}
       />
     </UI.Wrapper>

@@ -21,4 +21,25 @@ const StyledButton = styled(Button)`
   margin-bottom: 0.5rem;
 `;
 
-export { StyledInput, Wrapper, StyledButton, BoardHeader };
+const FieldName = styled.h2`
+  margin: 1.2rem 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: ${(props) => props.theme.color.primary4};
+`;
+
+const EstimatedTimeError = styled.p`
+  margin: 1.2rem 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: ${(props) => props.theme.color.error};
+`;
+
+export {
+  StyledInput,
+  EstimatedTimeError,
+  FieldName,
+  Wrapper,
+  StyledButton,
+  BoardHeader,
+};
