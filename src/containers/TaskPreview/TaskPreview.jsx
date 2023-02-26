@@ -10,12 +10,16 @@ import { formatDateWithTime } from "@/utils/date";
 import { CloseOutlined } from "@ant-design/icons";
 import { TaskStatus, TaskStatusToTitle } from "@/enums/Task";
 import { validateEstimatedTime } from "@/utils/validate";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "@/selectors/user";
+import { UserRoles } from "@/enums/Role";
 
 const { TextArea } = Input;
 
 const TaskPreview = ({ selectedTask, project }) => {
   const dispatch = useDispatch();
 
+  const userInfo = useSelector(userInfoSelector);
   const [selectedAsigneeId, setSelectedAsigneeId] = useState(
     selectedTask?.asignee
   );
@@ -32,6 +36,11 @@ const TaskPreview = ({ selectedTask, project }) => {
   const handleCloseTaskPreview = () => {
     dispatch(setSelectedTask(null));
   };
+
+  const isUserAdmin = useMemo(
+    () => userInfo.role === UserRoles.ADMIN,
+    [userInfo]
+  );
 
   useEffect(() => {
     if (selectedTask.status !== taskStatus) {
@@ -148,7 +157,7 @@ const TaskPreview = ({ selectedTask, project }) => {
         icon={<CloseOutlined />}
       />
       {!isEditingTitle ? (
-        <UI.TaskTitle onClick={() => setIsEditingTitle(true)}>
+        <UI.TaskTitle onClick={() => !isUserAdmin && setIsEditingTitle(true)}>
           {taskTitle}
         </UI.TaskTitle>
       ) : (
@@ -161,6 +170,7 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Описание</UI.FieldLabel>
         <TextArea
+          disabled={isUserAdmin}
           onBlur={handleUpdateDescription}
           onChange={handleChangeDescription}
           value={taskDescription}
@@ -170,6 +180,7 @@ const TaskPreview = ({ selectedTask, project }) => {
         <UI.FieldLabel>Статус</UI.FieldLabel>
         <Select
           value={taskStatus}
+          disabled={isUserAdmin}
           onChange={handleChangeStatus}
           options={taskStatusOptions}
         />
@@ -177,7 +188,9 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Время</UI.FieldLabel>
         {!isEditingEstimate ? (
-          <UI.TaskEstimate onClick={() => setIsEditingEstimate(true)}>
+          <UI.TaskEstimate
+            onClick={() => !isUserAdmin && setIsEditingEstimate(true)}
+          >
             {taskEstimate}
           </UI.TaskEstimate>
         ) : (
@@ -192,6 +205,7 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Исполнитель</UI.FieldLabel>
         <ParticipantAutocomplete
+          disabled={isUserAdmin}
           participants={project.participants}
           asigneeId={selectedAsigneeId}
           onSelect={handleSelectAsignee}

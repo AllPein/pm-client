@@ -3,7 +3,12 @@ import React, { useMemo } from "react";
 import * as UI from "./ParticipantAutocomplete.styles";
 import { getAvatarCharacters } from "@/utils/user";
 
-const ParticipantAutocomplete = ({ participants, asigneeId, onSelect }) => {
+const ParticipantAutocomplete = ({
+  participants,
+  asigneeId,
+  onSelect,
+  disabled,
+}) => {
   const selectedAsignee = useMemo(() => {
     return participants.find((participant) => participant.id === asigneeId);
   }, [participants, asigneeId]);
@@ -40,6 +45,7 @@ const ParticipantAutocomplete = ({ participants, asigneeId, onSelect }) => {
       )}
 
       <UI.StyledAutoComplete
+        disabled={disabled}
         value={
           selectedAsignee
             ? `${selectedAsignee?.user.firstName} ${selectedAsignee?.user.lastName}`

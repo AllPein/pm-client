@@ -24,6 +24,8 @@ import { updateTask } from "@/actions/projectView/projectView";
 import { Input, Modal } from "antd";
 import { ParticipantAutocomplete } from "../TaskPreview/ParticipantAutocomplete/ParticipantAutocomplete";
 import { validateEstimatedTime } from "../../utils/validate";
+import { userInfoSelector } from "@/selectors/user";
+import { UserRoles } from "@/enums/Role";
 
 const generateBoardColumn = (title, status, cards) => ({
   id: uuid(),
@@ -39,6 +41,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
   const participants = useSelector(projectParticipantsSelector);
   const projectTasks = useSelector(projectTasksSelector);
   const tasksFilter = useSelector(tasksFilterSelector);
+  const userInfo = useSelector(userInfoSelector);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [taskName, setTaskName] = useState("");
@@ -224,9 +227,14 @@ const BoardComponent = ({ projectId, taskSelected }) => {
           participants={filteredParticipantsByActive}
           onSelect={handleSelectParticipant}
         />
-        <UI.StyledButton type="primary" onClick={() => setIsModalVisible(true)}>
-          Создать задачу
-        </UI.StyledButton>
+        {userInfo.role !== UserRoles.ADMIN && (
+          <UI.StyledButton
+            type="primary"
+            onClick={() => setIsModalVisible(true)}
+          >
+            Создать задачу
+          </UI.StyledButton>
+        )}
       </UI.BoardHeader>
       <Board
         renderCard={(card) => (
