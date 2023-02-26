@@ -19,7 +19,7 @@ export const fetchAllProjects = createRequestAction(
   "fetchAllProjects",
   () => async (dispatch) => {
     const projects = await projectsApi.fetchAllProjects();
-    dispatch(setProjects(projects.projects));
+    dispatch(setProjects(projects));
     return projects;
   }
 );
