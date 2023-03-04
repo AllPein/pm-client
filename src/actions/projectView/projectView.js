@@ -121,3 +121,23 @@ export const createTask = createRequestAction(
     dispatch(setProjectTasks(newTasks));
   }
 );
+
+export const downloadReport = createRequestAction(
+  "downloadReport",
+  (projectId) => async (dispatch) => {
+    const blob = await projectsApi.downloadReport(projectId);
+    // const blob = new Blob([response], { type: 'file/xlsx'});
+    console.log(blob);
+
+    const mediaType="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
+    const url = mediaType + blob.data;
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${Date.now()}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up and remove the link
+    link.parentNode.removeChild(link);
+  }
+);

@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProjectTime } from '@/actions/projectView'
 import { projectTimeSelector } from '@/selectors/projectView'
 import { MetricCard } from './MetricCard'
-import { ENV } from '@/utils/env'
 import { isFetchingSelector } from '@/selectors/requests'
 import { Spin } from '@/components/Spin'
+import { downloadReport } from '../../actions/projectView/projectView'
 
 const ProjectMetrics = ({
   project
@@ -17,7 +17,11 @@ const ProjectMetrics = ({
 
   useEffect(() => {
     dispatch(fetchProjectTime(project.id))
-  }, [dispatch, project])
+  }, [dispatch, project]);
+
+  const handleDownload = () => {
+    dispatch(downloadReport(project.id));
+  }
 
   return (
     <UI.Wrapper>
@@ -42,8 +46,7 @@ const ProjectMetrics = ({
           ))
         }
         <a
-          download
-          href={`${ENV.BACKEND_URL}/projects/${project.id}/report`}
+          onClick={handleDownload}
         >
           Скачать отчет
         </a>

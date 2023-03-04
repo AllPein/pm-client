@@ -23,8 +23,11 @@ const updateTask = (task, projectId) =>
 const createTask = (task, projectId) =>
   apiRequest.post(`${ENV.BACKEND_URL}/project/${projectId}/task/`, task);
 
+const downloadReport = (projectId) => apiRequest.get(`${ENV.BACKEND_URL}/project/${projectId}/report`)
+
 export {
   fetchProject,
+  downloadReport,
   fetchProjects,
   createTask,
   addParticipant,

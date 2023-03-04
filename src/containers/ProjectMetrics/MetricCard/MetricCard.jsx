@@ -31,7 +31,7 @@ const MetricCard = ({
           {metric.metrics.count} {plural(metric.metrics.count, 'коммит', 'коммита', 'коммитов')}
         </UI.Text>
         <UI.Text>
-          {getDuration(metric.metrics.time)}
+          {getDuration(metric.metrics.time * 3600)}
         </UI.Text>
       </UI.InfoWrapper>
     </UI.Wrapper>
