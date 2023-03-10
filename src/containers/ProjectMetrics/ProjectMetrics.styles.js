@@ -15,8 +15,13 @@ const UsersWrapper = styled.div`
   overflow-y: scroll;
 `
 
+const ModalWrapper = styled.div`
+  height: 50rem;
+`
+
 export {
   StyledSearchIcon,
   UsersWrapper,
+  ModalWrapper,
   Wrapper
 }

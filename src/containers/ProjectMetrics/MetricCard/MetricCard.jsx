@@ -1,7 +1,6 @@
 import React from 'react'
 import * as UI from './MetricCard.styles'
 import { getAvatarCharacters, getUserCaption } from '@/utils/user'
-import { getDuration } from '@/utils/date'
 import plural from 'plural-ru'
 
 const MetricCard = ({
@@ -31,7 +30,13 @@ const MetricCard = ({
           {metric.metrics.count} {plural(metric.metrics.count, 'коммит', 'коммита', 'коммитов')}
         </UI.Text>
         <UI.Text>
-          {getDuration(metric.metrics.time * 3600)}
+          {metric.metrics.time} {plural(metric.metrics.time, 'час', 'часа', 'часов')}
+        </UI.Text>
+        <UI.Text>
+        {metric.metrics.tasksDoneCount} {plural(metric.metrics.tasksDoneCount, 'задача', 'задачи', 'задач')}
+        </UI.Text>
+        <UI.Text>
+          {metric.metrics.tasksEstimateCount} {`${plural(metric.metrics.tasksEstimateCount, 'час', 'часа', 'часов')} на задачи`}
         </UI.Text>
       </UI.InfoWrapper>
     </UI.Wrapper>

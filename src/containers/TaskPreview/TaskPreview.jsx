@@ -4,12 +4,11 @@ import * as UI from "./TaskPreview.styles";
 import { ParticipantAutocomplete } from "./ParticipantAutocomplete/ParticipantAutocomplete";
 import { setSelectedTask, updateTask } from "@/actions/projectView/projectView";
 import { useDispatch } from "react-redux";
-import { Avatar, Input, Select } from "antd";
+import { Avatar, Input, InputNumber, Select } from "antd";
 import { getAvatarCharacters } from "@/utils/user";
 import { formatDateWithTime } from "@/utils/date";
 import { CloseOutlined } from "@ant-design/icons";
 import { TaskStatus, TaskStatusToTitle } from "@/enums/Task";
-import { validateEstimatedTime } from "@/utils/validate";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "@/selectors/user";
 import { UserRoles } from "@/enums/Role";
@@ -31,7 +30,6 @@ const TaskPreview = ({ selectedTask, project }) => {
     selectedTask?.description
   );
   const [taskStatus, setTaskStatus] = useState(selectedTask?.status);
-  const [error, setError] = useState("");
 
   const handleCloseTaskPreview = () => {
     dispatch(setSelectedTask(null));
@@ -60,8 +58,8 @@ const TaskPreview = ({ selectedTask, project }) => {
     setTaskTitle(e.target.value);
   };
 
-  const handleChangeTaskEstimate = (e) => {
-    setTaskEstimate(e.target.value);
+  const handleChangeTaskEstimate = (value) => {
+    setTaskEstimate(value);
   };
 
   const handleUpdateDescription = () => {
@@ -90,23 +88,16 @@ const TaskPreview = ({ selectedTask, project }) => {
   };
 
   const handleUpdateEstiamte = () => {
-    const isEstimatedTimeStringValid = validateEstimatedTime(taskEstimate);
-    if (!isEstimatedTimeStringValid) {
-      setTaskEstimate(selectedTask?.estimatedTime || "");
-      setError("Введите строку формата 1w 1d 1h 30m");
-    } else {
-      setError("");
-      dispatch(
-        updateTask(
-          {
-            ...selectedTask,
-            estimatedTime: taskEstimate,
-          },
-          project.id
-        )
-      );
-      setIsEditingEstimate(false);
-    }
+    dispatch(
+      updateTask(
+        {
+          ...selectedTask,
+          estimatedTime: taskEstimate,
+        },
+        project.id
+      )
+    );
+    setIsEditingEstimate(false);
   };
 
   const handleChangeDescription = (e) => {
@@ -186,21 +177,21 @@ const TaskPreview = ({ selectedTask, project }) => {
         />
       </UI.InputWrapper>
       <UI.InputWrapper>
-        <UI.FieldLabel>Время</UI.FieldLabel>
+        <UI.FieldLabel>Время (в часах)</UI.FieldLabel>
         {!isEditingEstimate ? (
           <UI.TaskEstimate
             onClick={() => !isUserAdmin && setIsEditingEstimate(true)}
           >
-            {taskEstimate}
+            {taskEstimate}h
           </UI.TaskEstimate>
         ) : (
-          <Input
+          <InputNumber
             value={taskEstimate}
+            style={{ width: '100%' }}
             onChange={handleChangeTaskEstimate}
             onBlur={handleUpdateEstiamte}
           />
         )}
-        {error && <UI.EstimatedTimeError>{error}</UI.EstimatedTimeError>}
       </UI.InputWrapper>
       <UI.InputWrapper>
         <UI.FieldLabel>Исполнитель</UI.FieldLabel>

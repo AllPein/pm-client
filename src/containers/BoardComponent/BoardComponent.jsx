@@ -21,9 +21,8 @@ import { v4 as uuid } from "uuid";
 import { TaskSequence, TaskStatus, TaskStatusToTitle } from "@/enums/Task";
 import { updateTask } from "@/actions/projectView/projectView";
 
-import { Input, Modal } from "antd";
+import { Input, InputNumber, Modal } from "antd";
 import { ParticipantAutocomplete } from "../TaskPreview/ParticipantAutocomplete/ParticipantAutocomplete";
-import { validateEstimatedTime } from "../../utils/validate";
 import { userInfoSelector } from "@/selectors/user";
 import { UserRoles } from "@/enums/Role";
 
@@ -48,7 +47,6 @@ const BoardComponent = ({ projectId, taskSelected }) => {
   const [taskDescription, setTaskDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [taskAsigneeId, setTaskAsigneeId] = useState("");
-  const [error, setError] = useState("");
   const [searchValue, setSearchValue] = useState("");
 
   const handleChangeSearchValue = (e) => {
@@ -67,19 +65,9 @@ const BoardComponent = ({ projectId, taskSelected }) => {
     setTaskAsigneeId(id);
   };
 
-  const handleTimeChange = (e) => {
-    setEstimatedTime(e.target.value);
+  const handleTimeChange = (value) => {
+    setEstimatedTime(value);
   };
-
-  const handleEstimatedTimeBlur = useCallback(() => {
-    const isEstimatedTimeStringValid = validateEstimatedTime(estimatedTime);
-    if (!isEstimatedTimeStringValid) {
-      setEstimatedTime("");
-      setError("Введите строку формата 1w 1d 1h 30m");
-    } else {
-      setError("");
-    }
-  }, [estimatedTime]);
 
   const filteredParticipantsByActive = useMemo(() => {
     return participants?.map((participant) => ({
@@ -140,6 +128,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
       updateTask(
         {
           ...card,
+          estimatedTime: Number(card.estimatedTime),
           asignee: card.asignee?.id,
           status: newCardStatus,
         },
@@ -164,14 +153,14 @@ const BoardComponent = ({ projectId, taskSelected }) => {
           onChange={handleChangeTaskDescription}
           placeholder="Заполните поле"
         />
-        <UI.FieldName>Время</UI.FieldName>
-        <Input
+        <UI.FieldName>Время (в часах)</UI.FieldName>
+        <InputNumber
           value={estimatedTime}
+          min={0.1}
+          style={{ width: '100%' }}
           onChange={handleTimeChange}
           placeholder="Заполните поле"
-          onBlur={handleEstimatedTimeBlur}
         />
-        {error && <UI.EstimatedTimeError>{error}</UI.EstimatedTimeError>}
         <UI.FieldName>Исполнитель</UI.FieldName>
         <ParticipantAutocomplete
           participants={participants}
@@ -180,15 +169,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
         />
       </>
     );
-  }, [
-    error,
-    estimatedTime,
-    handleEstimatedTimeBlur,
-    participants,
-    taskAsigneeId,
-    taskDescription,
-    taskName,
-  ]);
+  }, [estimatedTime, participants, taskAsigneeId, taskDescription, taskName]);
 
   const handleTaskClick = useCallback(
     (task) => {
@@ -203,7 +184,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
         {
           title: taskName,
           description: taskDescription,
-          estimatedTime,
+          estimatedTime: estimatedTime,
           asignee: taskAsigneeId,
         },
         projectId

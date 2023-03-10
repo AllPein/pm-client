@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as UI from "./CreateTaskModal.styles";
-import { Input } from "antd";
+import { Input, InputNumber } from "antd";
 import { ParticipantAutocomplete } from "@/containers/TaskPreview/ParticipantAutocomplete/ParticipantAutocomplete";
 
 const CreateTaskModal = ({ participants }) => {
@@ -39,8 +39,8 @@ const CreateTaskModal = ({ participants }) => {
         onChange={handleChangeTaskDescription}
         placeholder="Заполните поле"
       />
-      <UI.FieldName>Время</UI.FieldName>
-      <Input
+      <UI.FieldName>Время (в часах)</UI.FieldName>
+      <InputNumber
         value={estimatedTime}
         onChange={handleTimeChange}
         placeholder="Заполните поле"

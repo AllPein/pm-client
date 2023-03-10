@@ -20,7 +20,7 @@ const BoardCard = ({ card, onTaskClick }) => {
       <UI.BottomControls>
         {card.estimatedTime && (
           <UI.EstimatedTimeTooltip>
-            {card.estimatedTime}
+            {card.estimatedTime}h
           </UI.EstimatedTimeTooltip>
         )}
         <UI.TaskCode>{card.code}</UI.TaskCode>
