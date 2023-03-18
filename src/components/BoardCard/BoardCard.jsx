@@ -3,7 +3,7 @@ import * as UI from "./BoardCard.styles";
 import { formatDateWithTime } from "@/utils/date";
 import { getAvatarCharacters } from "@/utils/user";
 
-const BoardCard = ({ card, onTaskClick }) => {
+const BoardCard = ({ card, cardBag, onTaskClick }) => {
   const handleTaskClick = () => {
     onTaskClick({
       ...card,

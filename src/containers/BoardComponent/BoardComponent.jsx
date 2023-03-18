@@ -25,6 +25,7 @@ import { Input, InputNumber, Modal } from "antd";
 import { ParticipantAutocomplete } from "../TaskPreview/ParticipantAutocomplete/ParticipantAutocomplete";
 import { userInfoSelector } from "@/selectors/user";
 import { UserRoles } from "@/enums/Role";
+import { useEffect } from "react";
 
 const generateBoardColumn = (title, status, cards) => ({
   id: uuid(),
@@ -43,6 +44,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
   const userInfo = useSelector(userInfoSelector);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [tasks, setTasks] = useState(projectTasks);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
@@ -83,9 +85,16 @@ const BoardComponent = ({ projectId, taskSelected }) => {
     [dispatch]
   );
 
+  useEffect(() => {
+    if (projectTasks.some((t, i) => JSON.stringify(t) !== JSON.stringify(tasks[i]))) {
+      setTasks(projectTasks);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectTasks])
+
   const mappedProjectTasks = useMemo(
     () =>
-      projectTasks
+      tasks
         .filter(
           (task) =>
             task.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -99,7 +108,7 @@ const BoardComponent = ({ projectId, taskSelected }) => {
               (participant) => participant.id === task.asignee
             ) ?? null,
         })),
-    [participants, projectTasks, searchValue]
+    [participants, tasks, searchValue]
   );
 
   const board = useMemo(() => {
@@ -121,21 +130,36 @@ const BoardComponent = ({ projectId, taskSelected }) => {
   }, [mappedProjectTasks, tasksFilter.value]);
 
   const handleDragCard = (card, _, destination) => {
-    const newCardStatus =
+    
+      const newCardStatus =
       board.columns.find((column) => column.id === destination.toColumnId)
         ?.status || TaskStatus.BACKLOG;
-    dispatch(
-      updateTask(
-        {
-          ...card,
-          estimatedTime: Number(card.estimatedTime),
-          asignee: card.asignee?.id,
-          status: newCardStatus,
-        },
-        projectId,
-        taskSelected
-      )
-    );
+    if (!card.approved || card.status !== TaskStatus.DONE) {
+      const updatedTask = {
+        ...card,
+        estimatedTime: Number(card.estimatedTime),
+        asignee: card.asignee?.id,
+        status: newCardStatus,
+      }
+
+      setTasks(prev => {
+        return prev.map((t) => {
+          if (t.id === updatedTask.id) {
+            return updatedTask;
+          }
+    
+          return t;
+        });
+      });
+
+      dispatch(
+        updateTask(
+          updatedTask,
+          projectId,
+          taskSelected
+        )
+      );
+    }
   };
 
   const renderModalContent = useMemo(() => {
@@ -190,8 +214,16 @@ const BoardComponent = ({ projectId, taskSelected }) => {
         projectId
       )
     );
+    setTaskAsigneeId('');
+    setTaskName('');
+    setTaskDescription('');
+    setEstimatedTime('');
     setIsModalVisible(false);
   };
+
+  const createButtonDisabled = useMemo(() => {
+    return !taskName || !taskDescription || !estimatedTime || !taskAsigneeId
+  }, [estimatedTime, taskAsigneeId, taskDescription, taskName])
 
   return (
     <UI.Wrapper>
@@ -218,11 +250,12 @@ const BoardComponent = ({ projectId, taskSelected }) => {
         )}
       </UI.BoardHeader>
       <Board
-        renderCard={(card) => (
-          <BoardCard card={card} onTaskClick={handleTaskClick} />
+        renderCard={(card, cardBag) => (
+          <BoardCard card={card} cardBag={cardBag} onTaskClick={handleTaskClick} />
         )}
         onCardDragEnd={handleDragCard}
         disableColumnDrag
+        disableCardDrag={userInfo.role === UserRoles.ADMIN}
       >
         {board}
       </Board>
@@ -230,6 +263,9 @@ const BoardComponent = ({ projectId, taskSelected }) => {
         open={isModalVisible}
         title="Создание задачи"
         onOk={handleCreateTask}
+        okButtonProps={{
+          disabled: createButtonDisabled
+        }}
         onCancel={() => setIsModalVisible(false)}
       >
         {renderModalContent}

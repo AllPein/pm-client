@@ -15,7 +15,7 @@ const InfoWrapper = styled.div`
 const Text = styled.p`
   font-size: 1.4rem;
   font-weight: 200;
-  margin: 1rem 4rem;
+  margin: 1rem 1rem;
   color: ${(props) => props.theme.color.primary4};
   min-width: 20rem;
 `

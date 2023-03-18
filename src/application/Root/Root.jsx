@@ -19,10 +19,6 @@ const RolesAssignmentPage = lazy(
   "RolesAssignmentPage"
 );
 const TasksPage = lazy(() => import("@/pages/TasksPage"), "TasksPage");
-const TaskPreview = lazy(
-  () => import("@/containers/TaskPreview"),
-  "TaskPreview"
-);
 
 const Root = () => {
   const renderRoot = () => (
@@ -37,9 +33,6 @@ const Root = () => {
         </ErrorBoundRoute>
         <ErrorBoundRoute exact path="/projects/:projectCode/tasks">
           <TasksPage />
-        </ErrorBoundRoute>
-        <ErrorBoundRoute exact path="/projects/:projectCode/tasks/:taskId">
-          <TaskPreview />
         </ErrorBoundRoute>
         <ErrorBoundRoute exact path="/user/settings">
           <SettingsPage />

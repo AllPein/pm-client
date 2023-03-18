@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import * as UI from "./TaskPreview.styles";
 
 import { ParticipantAutocomplete } from "./ParticipantAutocomplete/ParticipantAutocomplete";
 import { setSelectedTask, updateTask } from "@/actions/projectView/projectView";
 import { useDispatch } from "react-redux";
-import { Avatar, Input, InputNumber, Select } from "antd";
+import { Avatar, Button, Input, InputNumber, Select } from "antd";
 import { getAvatarCharacters } from "@/utils/user";
 import { formatDateWithTime } from "@/utils/date";
-import { CloseOutlined } from "@ant-design/icons";
+import { CheckCircleTwoTone, CloseCircleTwoTone, CloseOutlined } from "@ant-design/icons";
 import { TaskStatus, TaskStatusToTitle } from "@/enums/Task";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "@/selectors/user";
 import { UserRoles } from "@/enums/Role";
+import { ProjectRoles } from "../../enums/Role";
 
 const { TextArea } = Input;
 
@@ -35,23 +36,46 @@ const TaskPreview = ({ selectedTask, project }) => {
     dispatch(setSelectedTask(null));
   };
 
+  const mappedUserInfo = useMemo(() => {
+    const projectRole = project.participants.find((p) => p.user.id === userInfo.id)?.role;
+
+    return {
+      ...userInfo,
+      projectRole
+    }
+  }, [project, userInfo]);
+
   const isUserAdmin = useMemo(
-    () => userInfo.role === UserRoles.ADMIN,
-    [userInfo]
+    () => mappedUserInfo.role === UserRoles.ADMIN,
+    [mappedUserInfo]
   );
 
+  const disabledChange = useMemo(() => {
+    return isUserAdmin || selectedTask.approved
+  }, [isUserAdmin, selectedTask]);
+
   useEffect(() => {
-    if (selectedTask.status !== taskStatus) {
+    if (selectedTask.status !== taskStatus ||
+      selectedTask.title !== taskTitle ||
+      selectedTask.estimatedTime !== taskEstimate ||
+      selectedTask.description !== taskDescription ||
+      selectedTask.asignee !== selectedAsigneeId
+    ) {
       setTaskStatus(selectedTask.status);
+      setTaskTitle(selectedTask.title);
+      setTaskDescription(selectedTask.description);
+      setTaskEstimate(selectedTask.estimatedTime);
+      setSelectedAsigneeId(selectedTask.asignee);
     }
-  }, [selectedTask.status, taskStatus]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTask]);
 
   const taskCreator = useMemo(
     () =>
       project.participants.find(
         (participant) => participant.id === selectedTask.creatorId
       ),
-    [project.participants, selectedTask.creatorId]
+    [project, selectedTask]
   );
 
   const handleChangeTaskTitle = (e) => {
@@ -140,6 +164,42 @@ const TaskPreview = ({ selectedTask, project }) => {
     [taskStatus]
   );
 
+  const handleApprove = useCallback(() => {
+    dispatch(
+      updateTask(
+        {
+          ...selectedTask,
+          approved: true,
+        },
+        project.id
+      )
+    );
+  }, [dispatch, project.id, selectedTask]);
+
+  const renderApprovalStatus = useMemo(() => {
+    if (selectedTask.approved) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <CheckCircleTwoTone twoToneColor="#95de64" />
+          <p style={{ marginLeft: 10 }}>Подтверждена</p>
+        </div>
+      )
+    } else {
+      if (mappedUserInfo.projectRole && mappedUserInfo.projectRole !== ProjectRoles.PARTICIPANT) {
+        return (
+          <Button onClick={handleApprove}>Подвердить выполнение</Button>
+        )
+      } else {
+        return (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <CloseCircleTwoTone twoToneColor="#ff7875" />
+            <p style={{ marginLeft: 10 }}>Не подтверждена</p>
+          </div>
+        ) 
+      }
+    }
+  }, [handleApprove, mappedUserInfo.projectRole, selectedTask.approved])    
+
   return (
     <UI.Wrapper>
       <UI.StyledButton
@@ -148,7 +208,7 @@ const TaskPreview = ({ selectedTask, project }) => {
         icon={<CloseOutlined />}
       />
       {!isEditingTitle ? (
-        <UI.TaskTitle onClick={() => !isUserAdmin && setIsEditingTitle(true)}>
+        <UI.TaskTitle onClick={() => !disabledChange && setIsEditingTitle(true)}>
           {taskTitle}
         </UI.TaskTitle>
       ) : (
@@ -161,7 +221,7 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Описание</UI.FieldLabel>
         <TextArea
-          disabled={isUserAdmin}
+          disabled={disabledChange}
           onBlur={handleUpdateDescription}
           onChange={handleChangeDescription}
           value={taskDescription}
@@ -171,7 +231,7 @@ const TaskPreview = ({ selectedTask, project }) => {
         <UI.FieldLabel>Статус</UI.FieldLabel>
         <Select
           value={taskStatus}
-          disabled={isUserAdmin}
+          disabled={disabledChange}
           onChange={handleChangeStatus}
           options={taskStatusOptions}
         />
@@ -180,7 +240,7 @@ const TaskPreview = ({ selectedTask, project }) => {
         <UI.FieldLabel>Время (в часах)</UI.FieldLabel>
         {!isEditingEstimate ? (
           <UI.TaskEstimate
-            onClick={() => !isUserAdmin && setIsEditingEstimate(true)}
+            onClick={() => !disabledChange && setIsEditingEstimate(true)}
           >
             {taskEstimate}h
           </UI.TaskEstimate>
@@ -196,7 +256,7 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Исполнитель</UI.FieldLabel>
         <ParticipantAutocomplete
-          disabled={isUserAdmin}
+          disabled={disabledChange}
           participants={project.participants}
           asigneeId={selectedAsigneeId}
           onSelect={handleSelectAsignee}
@@ -227,6 +287,10 @@ const TaskPreview = ({ selectedTask, project }) => {
       <UI.InputWrapper>
         <UI.FieldLabel>Обновлено</UI.FieldLabel>
         {formatDateWithTime(selectedTask.updatedAt)}
+      </UI.InputWrapper>
+
+      <UI.InputWrapper>
+        {renderApprovalStatus}
       </UI.InputWrapper>
     </UI.Wrapper>
   );

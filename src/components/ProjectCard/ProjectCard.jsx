@@ -2,6 +2,7 @@ import React from 'react'
 import * as UI from './ProjectCard.styles'
 import { Avatar } from 'antd'
 import { formatDate } from '@/utils/date'
+import EmptyImage from '@/assets/icons/empty_image.png'
 
 const ProjectCard = ({
   project,
@@ -9,7 +10,7 @@ const ProjectCard = ({
 }) => (
   <UI.Wrapper onClick={openProject}>
     <UI.StyledAvatar>
-      <Avatar size={128} src={project.avatar} />
+      <Avatar size={128} src={project.avatar || EmptyImage} />
     </UI.StyledAvatar>
     <UI.ProjectInfo>
       <UI.Name>

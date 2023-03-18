@@ -9,6 +9,7 @@ import { ProjectRoles } from '@/enums/Role'
 import { notifySuccess } from '@/utils/notification/notification'
 import { goTo } from '@/utils/routerActions'
 import { history } from '@/utils/history'
+import EmptyImage from '@/assets/icons/empty_image.png'
 
 const ProjectInfo = ({
   project,
@@ -83,7 +84,7 @@ const ProjectInfo = ({
       <UI.Controls>
         <UI.NameControl>
           <UI.StyledAvatar>
-            <Avatar size={128} src={project.avatar} />
+            <Avatar size={128} src={project.avatar || EmptyImage} />
           </UI.StyledAvatar>
           <UI.Name>
             {project.name}

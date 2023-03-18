@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Button, Input } from "antd";
 import * as UI from "./SignUpPage.styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +46,10 @@ const SignUpPage = () => {
   const handlePasswordChange = (event) => {
     setPasswordValue(event.target.value);
   };
+
+  const disabled = useMemo(() => {
+    return isFetching || (!username || !email || !firstName || !lastName || !ghUsername || !passwordValue || !group)
+  }, [email, firstName, ghUsername, group, isFetching, lastName, passwordValue, username])
 
   const register = useCallback(async () => {
     await dispatch(
@@ -135,7 +139,7 @@ const SignUpPage = () => {
           <UI.Link onClick={() => goTo("/signin")}>Войти</UI.Link>
         </UI.LinkText>
         <UI.ButtonWrapper>
-          <Button block type="primary" disabled={isFetching} onClick={register}>
+          <Button block type="primary" disabled={disabled} onClick={register}>
             Зарегистрироваться
           </Button>
         </UI.ButtonWrapper>

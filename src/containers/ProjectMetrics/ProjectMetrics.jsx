@@ -9,13 +9,10 @@ import { Spin } from '@/components/Spin'
 import { downloadReport } from '../../actions/projectView/projectView'
 import { Button, Modal, Tabs } from 'antd'
 import { useMemo } from 'react'
-import { PieChart } from 'react-minimal-pie-chart'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
 
-
-const defaultLabelStyle = {
-  fontSize: '5px',
-  fontFamily: 'sans-serif',
-};
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ProjectMetrics = ({
   project
@@ -41,62 +38,66 @@ const ProjectMetrics = ({
     [setIsModalVisible]
   );
 
-  const getPieChartData = useCallback((key) => {
+  const getPieChartData = useCallback((key, label) => {
     if (projectTime) {
-      return projectTime.map((metric) => ({
-        title: metric.user.firstName + " " + metric.user.lastName,
-        value: metric.metrics[key],
-        color: metric.user.avatarColor
-      }))
+      return {
+        labels: projectTime.map((metric) => metric.user.firstName + " " + metric.user.lastName),
+        datasets: [{
+          label,
+          data: projectTime.map((metric) => metric.metrics[key]),
+          backgroundColor: projectTime.map((metric) => metric.user.avatarColor),
+        }]
+      } 
     }
   }, [projectTime]);
 
-  const tabs = useMemo(() => {
-    const defaultProps = {
-      style: { height: '40rem', marginTop: '2rem' },
-      label: ({ dataEntry }) => Number(dataEntry.value) > 0 ? dataEntry.title : '',
-      labelStyle: {
-        ...defaultLabelStyle,
-      }
-    }
-    
-    return [
-      {
-        key: '1',
-        label: `Коммиты`,
-        children: (
-          <>
-            <PieChart
-              data={getPieChartData('count')}
-              {...defaultProps}
-              />
-          </>
-        ),
-      },
-      {
-        key: '2',
-        label: `Задачи`,
-        children: (
-          <>
-            <PieChart
-              {...defaultProps}
-              data={getPieChartData('tasksDoneCount')} />
-          </>
-        )
-      },
-      {
-        key: '3',
-        label: `Время на задачи`,
-        children: (
-          <>
-            <PieChart
-              {...defaultProps}
-              data={getPieChartData('tasksEstimateCount')} />
-          </>
-        )
-      },
-    ]
-  }, [getPieChartData])
+  const tabs = useMemo(() => [
+    {
+      key: '1',
+      label: `Коммиты`,
+      children: (
+        <>
+          <Pie
+            style={{ maxHeight: 400 }}
+            data={getPieChartData('count', 'Коммитов')} />
+        </>
+      ),
+    },
+    {
+      key: '2',
+      label: `Добавления`,
+      children: (
+        <>
+          <Pie
+            style={{ maxHeight: 400 }}
+            data={getPieChartData('numberOfAdditions', 'Добавлено')} />
+        </>
+      ),
+    },
+    {
+      key: '3',
+      label: `Задачи`,
+      children: (
+        <>
+          <Pie
+            fallbackContent={<p>afaf</p>}
+            style={{ maxHeight: 400 }}
+            data={getPieChartData('tasksDoneCount', 'Задач')} />
+        </>
+      )
+    },
+    {
+      key: '4',
+      label: `Время на задачи`,
+      children: (
+        <>
+          <Pie
+            style={{ maxHeight: 400 }}
+            data={getPieChartData('tasksEstimateCount', 'Время')} />
+        </>
+      )
+    },
+  ], [getPieChartData])
 
   const renderModalContent = useMemo(() => {
     return (

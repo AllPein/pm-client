@@ -30,10 +30,13 @@ const MetricCard = ({
           {metric.metrics.count} {plural(metric.metrics.count, 'коммит', 'коммита', 'коммитов')}
         </UI.Text>
         <UI.Text>
-          {metric.metrics.time} {plural(metric.metrics.time, 'час', 'часа', 'часов')}
+          {metric.metrics.numberOfAdditions} {plural(metric.metrics.numberOfAdditions, 'строка', 'строки', 'строк')} {plural(metric.metrics.numberOfAdditions, 'добавлена', 'добавлены', 'добавлено')}
         </UI.Text>
         <UI.Text>
-        {metric.metrics.tasksDoneCount} {plural(metric.metrics.tasksDoneCount, 'задача', 'задачи', 'задач')}
+          {metric.metrics.numberOfDeletions} {plural(metric.metrics.numberOfDeletions, 'строка', 'строки', 'строк')} {plural(metric.metrics.numberOfDeletions, 'удалена', 'удалены', 'удалено')}
+        </UI.Text>
+        <UI.Text>
+        {metric.metrics.tasksDoneCount} {plural(metric.metrics.tasksDoneCount, 'задача', 'задачи', 'задач')} {plural(metric.metrics.tasksDoneCount, 'выполнена', 'выполнены', 'выполнено')}
         </UI.Text>
         <UI.Text>
           {metric.metrics.tasksEstimateCount} {`${plural(metric.metrics.tasksEstimateCount, 'час', 'часа', 'часов')} на задачи`}
