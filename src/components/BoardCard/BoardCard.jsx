@@ -5,6 +5,7 @@ import { getAvatarCharacters } from "@/utils/user";
 
 const BoardCard = ({ card, cardBag, onTaskClick }) => {
   const handleTaskClick = () => {
+    window.scrollTo(0, 0);
     onTaskClick({
       ...card,
       asignee: card.asignee.id,
