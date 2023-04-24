@@ -5,6 +5,7 @@ import {
   setActiveTab,
   setTasksFilter,
   setProjectTasks,
+  setProjectRequirements,
   setSelectedTask,
 } from "@/actions/projectView";
 
@@ -57,6 +58,16 @@ const setProjectTasksHandler = (state, action) => {
   };
 };
 
+const setProjectRequirementsHandler = (state, action) => {
+  return {
+    ...state,
+    project: {
+      ...state.project,
+      checklist: action.payload,
+    },
+  };
+};
+
 const setActiveTabHandler = (state, action) => {
   return {
     ...state,
@@ -72,6 +83,7 @@ const projectViewReducer = handleActions(
     [setActiveTab, setActiveTabHandler],
     [setTasksFilter, setTasksFilterHandler],
     [setProjectTasks, setProjectTasksHandler],
+    [setProjectRequirements, setProjectRequirementsHandler],
   ]),
   initialState
 );

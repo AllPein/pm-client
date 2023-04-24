@@ -21,6 +21,7 @@ import { useEffect } from "react";
 import { fetchUsersInProject } from "@/actions/users/users";
 import debounce from "lodash.debounce";
 import { ProjectMetrics } from "@/containers/ProjectMetrics";
+import { ProjectRequirements } from "@/containers/ProjectRequirements";
 import { ProjectReport } from "@/containers/ProjectReport";
 import { notifySuccess } from "@/utils/notification/notification";
 
@@ -95,6 +96,9 @@ const ProjectView = ({ project, userInfo }) => {
       )),
       new Tab("projectReport", "Отчет", () => (
         <ProjectReport user={userInfo} project={project} />
+      )),
+      new Tab("projectRequirements", "Требования", () => (
+        <ProjectRequirements user={userInfo} project={project} />
       )),
     ];
 

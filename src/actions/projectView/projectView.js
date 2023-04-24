@@ -16,6 +16,10 @@ export const setProjectTasks = createAction(
   `${FEATURE_NAME}/SET_PROJECT_TASKS`
 );
 
+export const setProjectRequirements = createAction(
+  `${FEATURE_NAME}/SET_PROJECT_REQUIREMENTS`
+);
+
 export const setActiveTab = createAction(`${FEATURE_NAME}/SET_ACTIVE_TAB`);
 
 export const setProjectTime = createAction(`${FEATURE_NAME}/SET_PROJECT_TIME`);
@@ -124,10 +128,8 @@ export const createTask = createRequestAction(
 
 export const downloadReport = createRequestAction(
   "downloadReport",
-  (projectId) => async (dispatch) => {
+  (projectId) => async () => {
     const blob = await projectsApi.downloadReport(projectId);
-    // const blob = new Blob([response], { type: 'file/xlsx'});
-    console.log(blob);
 
     const mediaType="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
     const url = mediaType + blob.data;
@@ -137,7 +139,24 @@ export const downloadReport = createRequestAction(
     document.body.appendChild(link);
     link.click();
 
-    // Clean up and remove the link
     link.parentNode.removeChild(link);
+  }
+);
+
+export const addNewRequirement = createRequestAction(
+  "addNewRequirement",
+  (requirement, projectId) => async (dispatch) => {
+    const updatedRequirements = await projectsApi.addNewRequirement(requirement, projectId);
+
+    dispatch(setProjectRequirements(updatedRequirements));
+  }
+);
+
+export const updateRequirement = createRequestAction(
+  "updateRequirement",
+  (requirement, projectId) => async (dispatch) => {
+    const updatedRequirements = await projectsApi.updateRequirement(requirement, projectId);
+
+    dispatch(setProjectRequirements(updatedRequirements));
   }
 );
